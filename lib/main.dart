@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
+
+void main() async {
   runApp(const MyApp());
+
+
+  final url = Uri.parse('http://localhost:8080/api/user/1');
+  final response = await http.get(url);
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+
+
+
+
 }
 
 class MyApp extends StatelessWidget {
@@ -45,6 +57,8 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
