@@ -1,17 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 
 
 void main() async {
+  // kakao api 시작
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final NATIVE_APP_KEY = 'e75e21715eed83246adf2b74ac9b98c9';
+  KakaoSdk.init(
+    // 앱
+    nativeAppKey: '${NATIVE_APP_KEY}',
+    // 웹
+    //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
+  );
+
+  // kakao api 관련 완료
   runApp(const MyApp());
 
+  /*
 
   final url = Uri.parse('http://localhost:8080/api/user/1');
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
-
-
+ */
+  bool result = await NaviApi.instance.isKakaoNaviInstalled();
+  if (result) {
+    print('카카오내비 앱으로 길안내 가능');
+  } else {
+    print('카카오내비 미설치');
+    // 카카오내비 설치 페이지로 이동
+    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+  }
 
 
 }
