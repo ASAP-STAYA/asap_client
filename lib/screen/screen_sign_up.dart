@@ -24,6 +24,9 @@ class _SignUpScreen extends State<SignUpScreen> {
 
   late UserProvider _userProvider;
 
+  late List<bool> isSelectedMechanical = [false, true];
+  late List<bool> isSelectedSmall = [false, true];
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -98,16 +101,87 @@ class _SignUpScreen extends State<SignUpScreen> {
                       child: _inputForm("비밀번호", _passwordController,
                           _passwordErrorMsg, width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+                      margin: EdgeInsets.fromLTRB(35, 0, 35, 40),
                       child: _inputForm("비밀번호 확인", _passwordCheckController,
                           _passwordCheckErrorMsg, width)),
                 ],
               ),
-              const Text('선호도'),
+              const Text(
+                '선호도를 알려주세요!',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.fromLTRB(40, 30, 40, 10),
+                    child: _inputPreference("기계식 주차장"),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    child: _inputPreference("좁은 주차장"),
+                  )
+                ],
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _inputPreference(String string) {
+    List<bool> isSelected;
+
+    if ("기계식 주차장" == string) {
+      isSelected = isSelectedMechanical;
+    } else if ("좁은 주차장" == string) {
+      isSelected = isSelectedSmall;
+    } else {
+      throw Exception("[ERROR] Invalid argument in _inputPreference");
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          string,
+          style: const TextStyle(
+              fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
+        ),
+        ToggleButtons(
+            isSelected: isSelected,
+            onPressed: (int index) {
+              setState(() {
+                if (index == 0) {
+                  isSelected[0] = true;
+                  isSelected[1] = false;
+                } else {
+                  isSelected[0] = false;
+                  isSelected[1] = true;
+                }
+              });
+            },
+            borderRadius: BorderRadius.circular(10),
+            constraints: BoxConstraints(minHeight: 35, maxHeight: 500),
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '안 가!',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  '상관 없어',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ])
+      ],
     );
   }
 }
@@ -150,7 +224,6 @@ Widget _inputForm(String name, TextEditingController textEditingController,
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      // Padding(padding: EdgeInsets.only(left: width * 0.05)),
       Text(
         name,
         style: const TextStyle(
