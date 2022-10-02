@@ -1,8 +1,10 @@
+import 'package:asap_client/provider/provider_user.dart';
+import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
-
+import 'package:provider/provider.dart';
 
 void main() async {
   // kakao api 시작
@@ -17,7 +19,11 @@ void main() async {
   );
 
   // kakao api 관련 완료
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ListenableProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp()));
 
   /*
 
@@ -26,16 +32,14 @@ void main() async {
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
  */
-  bool result = await NaviApi.instance.isKakaoNaviInstalled();
-  if (result) {
-    print('카카오내비 앱으로 길안내 가능');
-  } else {
-    print('카카오내비 미설치');
-    // 카카오내비 설치 페이지로 이동
-    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
-  }
-
-
+  // bool result = await NaviApi.instance.isKakaoNaviInstalled();
+  // if (result) {
+  //   print('카카오내비 앱으로 길안내 가능');
+  // } else {
+  //   print('카카오내비 미설치');
+  //   // 카카오내비 설치 페이지로 이동
+  //   launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -59,6 +63,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: SignUpScreen(),
     );
   }
 }
@@ -79,8 +84,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
-
-
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -137,6 +140,11 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpScreen())),
+              child: Text('회원가입'),
             ),
           ],
         ),
