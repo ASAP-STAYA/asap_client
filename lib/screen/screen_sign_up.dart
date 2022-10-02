@@ -15,7 +15,6 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreen extends State<SignUpScreen> {
   late Size screenSize;
   late double width;
-
   late double height;
 
   final _nameController = TextEditingController();
@@ -79,35 +78,35 @@ class _SignUpScreen extends State<SignUpScreen> {
         });
         return;
       }
-
       _submit();
     }
+
+    final _marginInputForm = width * 0.09;
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('회원가입'),
+          title: const Text('회원가입'),
         ),
         body: Container(
           child: ListView(
             children: <Widget>[
               Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.fromLTRB(35, 10, 35, 0),
+                      margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.02, _marginInputForm, 0),
                       child: _inputForm("이름", _nameController, '', width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
                       child: _inputForm(
                           "이메일", _emailController, _emailErrorMsg, width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(35, 0, 35, 0),
+                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
                       child: _inputForm("비밀번호", _passwordController,
                           _passwordErrorMsg, width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(35, 0, 35, 40),
+                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, height * 0.055),
                       child: _inputForm("비밀번호 확인", _passwordCheckController,
                           _passwordCheckErrorMsg, width)),
                 ],
@@ -121,11 +120,11 @@ class _SignUpScreen extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(40, 30, 40, 10),
+                    margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.03, _marginInputForm, height * 0.015),
                     child: _inputPrefer1("기계식 주차장"),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
                     child: _inputPrefer1("좁은 주차장"),
                   )
                 ],
@@ -194,18 +193,18 @@ class _SignUpScreen extends State<SignUpScreen> {
               });
             },
             borderRadius: BorderRadius.circular(10),
-            constraints: BoxConstraints(minHeight: 35),
-            children: const [
+            constraints: BoxConstraints(minHeight: height * 0.045),
+            children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                child: const Text(
                   '안 가!',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.03),
+                child: const Text(
                   '상관 없어',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -230,7 +229,7 @@ class _SignUpScreen extends State<SignUpScreen> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(bottom: 5),
+          padding: EdgeInsets.only(bottom: height * 0.015),
           child: Text(
             type,
             style: const TextStyle(fontSize: 18),
@@ -258,34 +257,34 @@ class _SignUpScreen extends State<SignUpScreen> {
               );
             },
             borderRadius: BorderRadius.circular(9),
-            constraints: BoxConstraints(minHeight: 30, minWidth: width * 0.2),
+            constraints: BoxConstraints(minHeight: height * 0.045, minWidth: width * 0.2),
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ]),
@@ -304,7 +303,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: TextStyle(color: Colors.red, fontSize: 14),
+          style: const TextStyle(color: Colors.red, fontSize: 14),
         ),
       ),
     );
@@ -321,7 +320,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: TextStyle(color: Colors.red, fontSize: 13),
+          style: const TextStyle(color: Colors.red, fontSize: 13),
         ),
       ),
     );
