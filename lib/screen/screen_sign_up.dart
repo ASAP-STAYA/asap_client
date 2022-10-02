@@ -80,7 +80,7 @@ class _SignUpScreen extends State<SignUpScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('SIGN UP'),
-          leading: Container(),
+          // leading: Container(),
         ),
         body: Container(
           child: ListView(
@@ -123,6 +123,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                     child: _inputPreference("좁은 주차장"),
                   )
                 ],
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: height * 0.015)),
+                onPressed: () => _checkValidation(),
+                child: const Text(
+                  '가입하기',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ],
           ),
@@ -196,7 +204,7 @@ Widget _inputForm(String name, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.red, fontSize: 14),
         ),
       ),
     );
@@ -213,7 +221,7 @@ Widget _inputForm(String name, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: TextStyle(color: Colors.red),
+          style: TextStyle(color: Colors.red, fontSize: 13),
         ),
       ),
     );
