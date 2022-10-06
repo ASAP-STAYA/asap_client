@@ -1,6 +1,25 @@
+class User {
+  final int userId;
+  final int id;
+  final String title;
+  final String body;
+
+  User({required this.userId,required this.id,required this.title,required this.body});
+
+  factory User.fromMap(Map<String, dynamic> json) {
+    return User(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+}
+
+/*
 
 class User {
-  String name;
+  String name = 'user1';
   String email;
   String password;
   bool mechanical; // 기계식 주차장
@@ -16,4 +35,4 @@ class User {
         largeParking = map['largeParking'];
 
 
-}
+}*/
