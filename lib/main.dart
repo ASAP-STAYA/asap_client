@@ -13,19 +13,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:provider/provider.dart';
 
 
-/* http 통신 */
-Future<User> fetchUser() async {
-  final httpurl = 'https://jsonplaceholder.typicode.com/posts/1';
-  final response = await http.get(Uri.parse(httpurl));
 
-  if (response.statusCode == 200){ // 서버로의 요청 성공 -> JSON 파싱
-    return User.fromMap(json.decode(response.body));
-  }
-  else{ // 요청 실패 -> throw error
-    throw Exception('Failed to load post');
-  }
-
-}
 
 void main() async {
   // kakao api 시작
@@ -66,12 +54,12 @@ void main() async {
       child: MyApp()));
 
   // Backend와 연동
-/*
-  final url = Uri.parse('http://localhost:8080/api/user/1');
+
+  final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
-*/
+
 
 
 }
