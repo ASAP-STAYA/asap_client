@@ -13,6 +13,19 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:provider/provider.dart';
 
 
+/* http 통신 */
+Future<User> fetchUser() async {
+  final httpurl = 'https://jsonplaceholder.typicode.com/posts/1';
+  final response = await http.get(Uri.parse(httpurl));
+
+  if (response.statusCode == 200){ // 서버로의 요청 성공 -> JSON 파싱
+    return User.fromMap(json.decode(response.body));
+  }
+  else{ // 요청 실패 -> throw error
+    throw Exception('Failed to load post');
+  }
+
+}
 
 void main() async {
   // kakao api 시작
@@ -33,10 +46,11 @@ void main() async {
     ListenableProvider(create: (_) => UserProvider()),
   ], child: MyApp()));
 
- 
 
+  // Backend와 연동 (http)
   final url = Uri.parse('10.0.2.2:8080/api/parking/data');
   //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
+  final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
@@ -110,6 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
