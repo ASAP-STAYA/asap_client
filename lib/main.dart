@@ -28,24 +28,7 @@ void main() async {
   );
 
 
-  // 카카오 API 연동
 
-/*
-  bool result = await NaviApi.instance.isKakaoNaviInstalled();
-  if (result) {
-    print('카카오내비 앱으로 길안내 가능');
-    await NaviApi.instance.navigate(
-      destination:
-        Location(name: '카카오 판교오피스', x: '127.108640', y: '37.402111'),
-        option: NaviOption(coordType: CoordType.wgs84),
-    );
-  } else {
-    print('카카오내비 미설치');
-    // 카카오내비 설치 페이지로 이동
-    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
-  }
-  print('카카오 내비 끝');
-*/
 
   runApp(MultiProvider(
       providers: [
