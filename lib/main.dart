@@ -13,19 +13,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:provider/provider.dart';
 
 
-/* http 통신 */
-Future<User> fetchUser() async {
-  final httpurl = 'https://jsonplaceholder.typicode.com/posts/1';
-  final response = await http.get(Uri.parse(httpurl));
 
-  if (response.statusCode == 200){ // 서버로의 요청 성공 -> JSON 파싱
-    return User.fromMap(json.decode(response.body));
-  }
-  else{ // 요청 실패 -> throw error
-    throw Exception('Failed to load post');
-  }
-
-}
 
 void main() async {
   // kakao api 시작
@@ -40,11 +28,30 @@ void main() async {
   );
 
 
+  // 카카오 API 연동
 
+/*
+  bool result = await NaviApi.instance.isKakaoNaviInstalled();
+  if (result) {
+    print('카카오내비 앱으로 길안내 가능');
+    await NaviApi.instance.navigate(
+      destination:
+        Location(name: '카카오 판교오피스', x: '127.108640', y: '37.402111'),
+        option: NaviOption(coordType: CoordType.wgs84),
+    );
+  } else {
+    print('카카오내비 미설치');
+    // 카카오내비 설치 페이지로 이동
+    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+  }
+  print('카카오 내비 끝');
+*/
 
-  runApp(MultiProvider(providers: [
-    ListenableProvider(create: (_) => UserProvider()),
-  ], child: MyApp()));
+  runApp(MultiProvider(
+      providers: [
+        ListenableProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp()));
 
 
   // Backend와 연동 (http)
