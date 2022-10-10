@@ -24,6 +24,18 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+// 네이버 지도 sdk : maven 저장소 정보 저장
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://naver.jfrog.io/artifactory/maven/'
+        }
+    }
+}
+
+
 android {
 //    compileSdkVersion flutter.compileSdkVersion
     compileSdkVersion 33
@@ -69,6 +81,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.naver.maps:map-sdk:3.15.0' // 네이버 지도
+
 }
 
 android {

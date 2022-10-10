@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:asap_client/main.dart';
+import 'package:asap_client/screen/screen_navi.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
@@ -26,6 +27,8 @@ class _SelectScreen extends State<SelectScreen> {
     height = screenSize.height;
 
     void _gotoNavi() async{
+
+
       bool result = await NaviApi.instance.isKakaoNaviInstalled();
       if (result){
         print('카카오 내비 앱이 존재합니다');
@@ -63,7 +66,8 @@ class _SelectScreen extends State<SelectScreen> {
                             padding: EdgeInsets.symmetric(vertical: height * 0.02),
                             minimumSize: Size(width*0.5, height*0.015),
                           ),
-                          onPressed: () => _gotoNavi(),
+                          onPressed: () => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => NaviScreen())),
                           child: const Text(
                             'A. 신수동 공영주차장 ',
                             style: TextStyle(fontSize: 18),

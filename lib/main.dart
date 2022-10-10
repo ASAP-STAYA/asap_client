@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 
 
+
 void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +28,36 @@ void main() async {
   );
 
 
+  // 카카오 API 연동
+
+/*
+  bool result = await NaviApi.instance.isKakaoNaviInstalled();
+  if (result) {
+    print('카카오내비 앱으로 길안내 가능');
+    await NaviApi.instance.navigate(
+      destination:
+        Location(name: '카카오 판교오피스', x: '127.108640', y: '37.402111'),
+        option: NaviOption(coordType: CoordType.wgs84),
+    );
+  } else {
+    print('카카오내비 미설치');
+    // 카카오내비 설치 페이지로 이동
+    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
+  }
+  print('카카오 내비 끝');
+*/
+
+  runApp(MultiProvider(
+      providers: [
+        ListenableProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp()));
 
 
-  runApp(MultiProvider(providers: [
-    ListenableProvider(create: (_) => UserProvider()),
-  ], child: MyApp()));
-
- 
-
+  // Backend와 연동 (http)
   final url = Uri.parse('10.0.2.2:8080/api/parking/data');
   //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
+  final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
@@ -110,6 +131,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
