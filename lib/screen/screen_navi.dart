@@ -7,9 +7,9 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 class LocationClass extends LatLng {
   final double latitude;
   final double longitude;
-
   const LocationClass({required this.latitude, required this.longitude}) : super(latitude, longitude);
 }
+
 
 class NaviScreen extends StatefulWidget{
   @override
@@ -19,22 +19,37 @@ class NaviScreen extends StatefulWidget{
 class _NaviScreen extends State<NaviScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   Completer<NaverMapController> _controller = Completer();
+  late Size screenSize;
+  late double width;
+  late double height;
+
 
   @override
   Widget build(BuildContext context) {
+
+   /* screenSize = MediaQuery
+        .of(context)
+        .size;
+    width = screenSize.width;
+    height = screenSize.height;*/
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
-        body: NaverMap(
-          onMapCreated: _onMapCreated,
-        ),
+        body:
+          NaverMap(
+            onMapCreated: _onMapCreated,
+          ),
       ),
     );
+
+
   }
 
   void _onMapCreated(NaverMapController controller) {
     if (_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
   }
+
 
 }

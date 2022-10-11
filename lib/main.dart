@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
-import 'package:asap_client/screen/screen_navi1.dart';
+import 'package:asap_client/screen/screen_navi.dart';
 import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 import 'package:flutter/material.dart';
@@ -57,11 +57,12 @@ void main() async {
   // Backend와 연동 (http)
   final url = Uri.parse('10.0.2.2:8080/api/parking/data');
   //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
-  final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
+  //final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 
+}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -89,7 +90,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<User>? user;
+
   late Size screenSize;
   late double width;
   late double height;
@@ -97,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initSate() {
     super.initState();
-    user = fetchUser();
+
   }
 
   @override
@@ -131,11 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
