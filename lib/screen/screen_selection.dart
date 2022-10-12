@@ -61,7 +61,18 @@ class _SelectScreen extends State<SelectScreen> {
                         Padding(
                           padding: EdgeInsets.all(width*0.1),
                         ),
-
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: height * 0.02),
+                            minimumSize: Size(width*0.5, height*0.015),
+                          ),
+                          onPressed: () => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => NaviScreen())),
+                          child: const Text(
+                            'A. 신수동 공영주차장 ',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.all(width*0.008),
                         ),
@@ -78,7 +89,8 @@ class _SelectScreen extends State<SelectScreen> {
                               padding: EdgeInsets.symmetric(vertical: height * 0.02),
                               minimumSize: Size(width*0.5, height*0.015),
                           ),
-                          onPressed: () => _gotoNavi(),
+                          onPressed: () => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => NaviScreen())),
                           child: const Text(
                             'B. 서강대역 환승 공영주차장 ',
                             style: TextStyle(fontSize: 18),
