@@ -57,6 +57,7 @@ void main() async {
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
+
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -85,7 +86,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<User>? user;
+
   late Size screenSize;
   late double width;
   late double height;
@@ -93,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initSate() {
     super.initState();
+
   }
 
   @override
@@ -126,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
+
     );
   }
 }
