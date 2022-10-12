@@ -108,7 +108,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
             fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
-      SizedBox(width: width * 0.5, child: textFormField),
+      SizedBox(width: width * 0.4, child: textFormField),
     ],
   );
 }
