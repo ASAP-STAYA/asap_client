@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:asap_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:asap_client/screen/screen_login.dart';
 
 import '../provider/provider_user.dart';
 
@@ -45,8 +46,11 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.email = _emailController.text;
       _userProvider.name = _nameController.text;
       _userProvider.password = _passwordController.text;
+
+
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MyApp()));
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+      ////////to popup
     }
 
     void _checkValidation() async {
@@ -78,6 +82,7 @@ class _SignUpScreen extends State<SignUpScreen> {
         });
         return;
       }
+
       _submit();
     }
 
@@ -152,6 +157,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   '가입하기',
                   style: TextStyle(fontSize: 18),
                 ),
+
               ),
             ],
           ),
@@ -341,3 +347,4 @@ Widget _inputForm(String type, TextEditingController textEditingController,
     ],
   );
 }
+

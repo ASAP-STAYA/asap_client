@@ -12,9 +12,6 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:provider/provider.dart';
 
-
-
-
 void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +23,6 @@ void main() async {
     // 웹
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
-
 
   // 카카오 API 연동
 
@@ -132,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
     );
   }
 }
