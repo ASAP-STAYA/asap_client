@@ -16,17 +16,17 @@ void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
 
-  final NATIVE_APP_KEY = 'e75e21715eed83246adf2b74ac9b98c9';
+  final NATIVE_APP_KEY = '6a4ae5a36656e1e37b35889e4fd7b532';
   KakaoSdk.init(
     // 앱
-    nativeAppKey: '${NATIVE_APP_KEY}',
+    nativeAppKey: 'dc549883cd9e704f17c4b5506784bf3f',
     // 웹
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
   // 카카오 API 연동
 
-/*
+
   bool result = await NaviApi.instance.isKakaoNaviInstalled();
   if (result) {
     print('카카오내비 앱으로 길안내 가능');
@@ -41,7 +41,7 @@ void main() async {
     launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
   }
   print('카카오 내비 끝');
-*/
+
 
   runApp(MultiProvider(
       providers: [
@@ -50,6 +50,7 @@ void main() async {
       child: MyApp()));
 
 
+/*
   // Backend와 연동 (http)
   final url = Uri.parse('10.0.2.2:8080/api/parking/data');
   //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
@@ -57,6 +58,7 @@ void main() async {
   final response = await http.get(url);
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
+*/
 
 }
 class MyApp extends StatelessWidget {
