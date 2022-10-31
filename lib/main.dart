@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'package:asap_client/screen/screen_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
@@ -123,6 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
               /* Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SelectScreen())),*/
               child: Text('Settings'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingScreen())),
+              child: Text('설정'),
             ),
           ],
         ),

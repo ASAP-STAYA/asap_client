@@ -12,8 +12,8 @@ class _LoginPageState extends State<LoginPage> {
   late Size screenSize;
   late double width;
   late double height;
-  var _emailErrorMsg = '';
-  var _passwordErrorMsg = '';
+  final _emailErrorMsg = '';
+  final _passwordErrorMsg = '';
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
 
         body: SafeArea(
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
 
               Container(
