@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
 import 'package:asap_client/screen/screen_navi.dart';
+
 import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
 
-  final NATIVE_APP_KEY = '6a4ae5a36656e1e37b35889e4fd7b532';
+
   KakaoSdk.init(
     // 앱
     nativeAppKey: 'dc549883cd9e704f17c4b5506784bf3f',
@@ -24,23 +25,10 @@ void main() async {
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
-  // 카카오 API 연동
 
 
-  bool result = await NaviApi.instance.isKakaoNaviInstalled();
-  if (result) {
-    print('카카오내비 앱으로 길안내 가능');
-    await NaviApi.instance.navigate(
-      destination:
-        Location(name: '카카오 판교오피스', x: '127.108640', y: '37.402111'),
-        option: NaviOption(coordType: CoordType.wgs84),
-    );
-  } else {
-    print('카카오내비 미설치');
-    // 카카오내비 설치 페이지로 이동
-    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
-  }
-  print('카카오 내비 끝');
+
+
 
 
   runApp(MultiProvider(
@@ -113,19 +101,28 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('images/playstore.png', width: width * 0.7,),
-            ElevatedButton(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpScreen())),
-              child: Text('회원가입'),
+            IconButton(
+                icon: Image.asset('images/playstore.png'),
+                iconSize: width*0.75,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen())),
             ),
+
             Padding(
               padding: EdgeInsets.all(width * 0.025),
             ),
             ElevatedButton(
               onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SelectScreen())),
-              child: Text('내비 안내'),
+                  MaterialPageRoute(builder: (context) => SignUpScreen())),
+              child: Text('회원가입'),
+            ),
+           Padding(
+              padding: EdgeInsets.all(width * 0.001),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              /* Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SelectScreen())),*/
+              child: Text('Settings'),
             ),
           ],
         ),

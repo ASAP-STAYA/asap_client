@@ -1,31 +1,28 @@
 import 'dart:async';
-
-import 'package:asap_client/screen/screen_voice1.dart';
+import 'package:asap_client/screen/screen_voice2.dart';
 import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 
 
-
-
-class Welcome extends StatefulWidget {
+class Voice1 extends StatefulWidget {
   @override
-  _Welcome createState() => _Welcome();
+  _Voice1 createState() => _Voice1();
 }
 
-class _Welcome extends State<Welcome> {
+class _Voice1 extends State<Voice1> {
   @override
   void initState(){
     super.initState();
     Timer(Duration(seconds: 3), (){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Voice1()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Voice2()));
     });
   }
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
       home: Scaffold(
         body: Center(
-          child: Text('반가워요!',style:TextStyle(fontSize: 25)),
+          child: Text('어디로 안내할까요?',style:TextStyle(fontSize: 25)),
+
         ),
       ),
     );
