@@ -86,6 +86,8 @@ class _SelectScreen extends State<SelectScreen> {
               new TextButton(
                 onPressed: (){
                   Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyHomePage(title:'')));
                 },
                 child: new Text("확인"),
               ),

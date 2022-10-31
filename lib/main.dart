@@ -120,15 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.all(width * 0.001),
             ),
             ElevatedButton(
-              onPressed: () {},
-              /* Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SelectScreen())),*/
-              child: Text('Settings'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.push(context,
+              onPressed: () =>
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: Text('설정'),
+              child: Text('Settings'),
             ),
           ],
         ),
