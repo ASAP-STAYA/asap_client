@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:asap_client/screen/screen_setting.dart';
+import 'package:asap_client/screen/screen_voice1.dart';
 import 'package:flutter/material.dart';
 import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
                 icon: Image.asset('images/playstore.png'),
                 iconSize: width*0.75,
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen())),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Voice1())),
             ),
 
             Padding(

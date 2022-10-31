@@ -22,7 +22,6 @@ class _Voice1 extends State<Voice1> {
       home: Scaffold(
         body: Center(
           child: Text('어디로 안내할까요?',style:TextStyle(fontSize: 25)),
-
         ),
       ),
     );
