@@ -14,7 +14,7 @@ class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _SignUpScreen();
-  }가
+  }
 }
 
 class _SignUpScreen extends State<SignUpScreen> {
