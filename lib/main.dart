@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:asap_client/screen/screen_setting.dart';
+import 'package:asap_client/screen/screen_voice1.dart';
 import 'package:flutter/material.dart';
 import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
 import 'package:asap_client/screen/screen_navi.dart';
+
 import 'package:asap_client/screen/screen_sign_up.dart';
+import 'package:asap_client/screen/screen_login.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,48 +20,18 @@ void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
 
-  final NATIVE_APP_KEY = 'e75e21715eed83246adf2b74ac9b98c9';
   KakaoSdk.init(
     // 앱
-    nativeAppKey: '${NATIVE_APP_KEY}',
+    nativeAppKey: 'dc549883cd9e704f17c4b5506784bf3f',
     // 웹
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
-
-  // 카카오 API 연동
-
-/*
-  bool result = await NaviApi.instance.isKakaoNaviInstalled();
-  if (result) {
-    print('카카오내비 앱으로 길안내 가능');
-    await NaviApi.instance.navigate(
-      destination:
-        Location(name: '카카오 판교오피스', x: '127.108640', y: '37.402111'),
-        option: NaviOption(coordType: CoordType.wgs84),
-    );
-  } else {
-    print('카카오내비 미설치');
-    // 카카오내비 설치 페이지로 이동
-    launchBrowserTab(Uri.parse(NaviApi.webNaviInstall));
-  }
-  print('카카오 내비 끝');
-*/
 
   runApp(MultiProvider(
       providers: [
         ListenableProvider(create: (_) => UserProvider()),
       ],
       child: MyApp()));
-
-
-  // Backend와 연동 (http)
-  final url = Uri.parse('10.0.2.2:8080/api/parking/data');
-  //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
-  //final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
-  final response = await http.get(url);
-  print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}');
-
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -112,24 +85,37 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('images/playstore.png', width: width * 0.7,),
+            IconButton(
+                icon: Image.asset('images/playstore.png'),
+                iconSize: width*0.75,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Voice1())),
+            ),
+
+            Padding(
+              padding: EdgeInsets.all(width * 0.025),
+            ),
             ElevatedButton(
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignUpScreen())),
               child: Text('회원가입'),
             ),
             Padding(
-              padding: EdgeInsets.all(width * 0.025),
+              padding: EdgeInsets.all(width * 0.002),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SelectScreen())),
-              child: Text('내비 안내'),
+              onPressed: () =>
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage())),
+              child: Text('로그인'),
+            ),
+           Padding(
+              padding: EdgeInsets.all(width * 0.002),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.push(context,
+              onPressed: () =>
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: Text('설정'),
+              child: Text('Settings'),
             ),
           ],
         ),

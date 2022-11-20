@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:asap_client/main.dart';
@@ -6,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:asap_client/screen/screen_login.dart';
 
 import '../provider/provider_user.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -34,6 +36,7 @@ class _SignUpScreen extends State<SignUpScreen> {
   late List<bool> isSelectedDistance = [false, false, false, true];
   late List<bool> isSelectedPrice = [false, false, false, true];
 
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -42,11 +45,22 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     _userProvider = Provider.of<UserProvider>(context);
 
-    void _submit() {
+    Future<void> _submit() async {
       _userProvider.email = _emailController.text;
       _userProvider.name = _nameController.text;
       _userProvider.password = _passwordController.text;
 
+      var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup');
+      Map data = {
+        "username": _userProvider.name,
+        "email": _userProvider.email,
+        "password": _userProvider.password
+      };
+      var response = await http.post(url, body: json.encode(data), headers: {
+        'Content-Type': 'application/json'
+      });
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
@@ -86,7 +100,7 @@ class _SignUpScreen extends State<SignUpScreen> {
       _submit();
     }
 
-    final _marginInputForm = width * 0.09;
+    final _marginInputForm = width * 0.08;
 
     return SafeArea(
       child: Scaffold(
@@ -339,8 +353,11 @@ Widget _inputForm(String type, TextEditingController textEditingController,
     children: [
       Text(
         type,
+        textAlign: TextAlign.center,
         style: const TextStyle(
-            fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
+            fontSize: 18,
+            fontFeatures: [FontFeature.tabularFigures()],
+        ),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
       SizedBox(width: width * 0.5, child: textFormField),

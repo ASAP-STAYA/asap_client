@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_welcome.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'dart:ui';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -16,6 +20,26 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordErrorMsg = '';
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void _callAPI() async {
+
+    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
+    Map data1 = {
+      'email': 'user@test.com',
+      'password': '12345678'
+    };
+    var response = await http.post(url, body: json.encode(data1), headers: {
+      'Content-Type': 'application/json'
+    });
+    String token = response.body.toString();
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Welcome()));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -34,23 +58,22 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
 
               Container(
-                  margin: EdgeInsets.fromLTRB(_marginInputForm, 100, _marginInputForm, 0),
+                  margin: EdgeInsets.fromLTRB(_marginInputForm, 170, _marginInputForm, 0),
                   child: _inputForm(
                       "이메일", _emailController, _emailErrorMsg, width)),
               Container(
-                  margin: EdgeInsets.fromLTRB(_marginInputForm, 100, _marginInputForm, 0),
+                  margin: EdgeInsets.fromLTRB(_marginInputForm, 20, _marginInputForm, 0),
                   child: _inputForm("비밀번호", _passwordController,
                       _passwordErrorMsg, width)),
               SizedBox(height: 80.0),
-
-
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.02),
                   minimumSize: Size(width*0.5, height*0.015),
                 ),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Welcome())),
+                // onPressed: () => Navigator.push(context,
+                //     MaterialPageRoute(builder: (context) => Welcome())),
+                onPressed: _callAPI,
                 child: const Text(
                   '로그인',
                   style: TextStyle(fontSize: 18),
