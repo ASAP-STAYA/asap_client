@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 
 
-
-
 class Voice2 extends StatefulWidget {
   @override
   _Voice2 createState() => _Voice2();

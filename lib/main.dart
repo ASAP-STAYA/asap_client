@@ -8,6 +8,7 @@ import 'package:asap_client/provider/provider_user.dart';
 import 'package:asap_client/screen/screen_navi.dart';
 
 import 'package:asap_client/screen/screen_sign_up.dart';
+import 'package:asap_client/screen/screen_login.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,6 @@ void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
 
-
   KakaoSdk.init(
     // 앱
     nativeAppKey: 'dc549883cd9e704f17c4b5506784bf3f',
@@ -27,29 +27,11 @@ void main() async {
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
-
-
-
-
-
-
   runApp(MultiProvider(
       providers: [
         ListenableProvider(create: (_) => UserProvider()),
       ],
       child: MyApp()));
-
-
-/*
-  // Backend와 연동 (http)
-  final url = Uri.parse('10.0.2.2:8080/api/parking/data');
-  //final url = Uri.parse('https://raw.githubusercontent.com/dev-yakuza/users/master/api.json');
-  //final url = Uri.parse('http://127.0.0.1:8080/api/user/1');
-  final response = await http.get(url);
-  print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}');
-*/
-
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -117,8 +99,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => SignUpScreen())),
               child: Text('회원가입'),
             ),
+            Padding(
+              padding: EdgeInsets.all(width * 0.002),
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage())),
+              child: Text('로그인'),
+            ),
            Padding(
-              padding: EdgeInsets.all(width * 0.001),
+              padding: EdgeInsets.all(width * 0.002),
             ),
             ElevatedButton(
               onPressed: () =>
