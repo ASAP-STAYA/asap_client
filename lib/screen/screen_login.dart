@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   margin: EdgeInsets.fromLTRB(_marginInputForm, 20, _marginInputForm, 0),
                   child: _inputForm("비밀번호", _passwordController,
                       _passwordErrorMsg, width)),
-              SizedBox(height: 80.0),
+              const SizedBox(height: 80.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.02),
