@@ -51,6 +51,16 @@ dependencies:
   provider:
   flutter_rating_bar: ^4.0.1
 
+  #STT
+  speech_recognition: ^0.3.0+1
+  speech_to_text: ^4.2.2
+  highlight_text: ^0.7.2
+  avatar_glow: ^1.2.0
+  translator:
+  flutter_tts:
+  localstorage: ^4.0.0+1
+  duration_button: ^1.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
