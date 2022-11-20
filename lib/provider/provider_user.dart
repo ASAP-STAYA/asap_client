@@ -8,6 +8,7 @@ class UserProvider extends ChangeNotifier {
   double _costPrefer = 0;
   bool _canMechanical = true;
   bool _canNarrow = true;
+  String _token = "";
 
   String get email => _email;
   String get password => _password;
@@ -16,6 +17,7 @@ class UserProvider extends ChangeNotifier {
   double get costPrefer => _costPrefer;
   bool get canMechanical => _canMechanical;
   bool get canNarrow => _canNarrow;
+  String get token => _token;
 
   set email(String inputEmail) {
     _email = inputEmail;
@@ -49,6 +51,11 @@ class UserProvider extends ChangeNotifier {
 
   set canNarrow(bool inputCanNarrow) {
     _canNarrow = inputCanNarrow;
+    notifyListeners();
+  }
+
+  set token(String inputToken) {
+    _token = inputToken;
     notifyListeners();
   }
 }
