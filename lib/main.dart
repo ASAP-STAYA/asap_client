@@ -1,16 +1,10 @@
-import 'dart:convert';
-import 'dart:async';
 import 'package:asap_client/screen/screen_setting.dart';
 import 'package:asap_client/screen/screen_voice1.dart';
 import 'package:flutter/material.dart';
-import 'package:asap_client/model/model_user.dart';
 import 'package:asap_client/provider/provider_user.dart';
-import 'package:asap_client/screen/screen_navi.dart';
 
 import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_login.dart';
-import 'package:asap_client/screen/screen_selection.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
@@ -34,7 +28,7 @@ void main() async {
       child: MyApp()));
 }
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({key});
 
   // This widget is the root of your application.
   @override
@@ -51,7 +45,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({key, required this.title});
 
   final String title;
 

@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:asap_client/main.dart';
-import 'package:asap_client/screen/screen_navi.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 
@@ -14,7 +11,7 @@ class SelectScreen extends StatefulWidget{
   final String yy;
   const SelectScreen(this.parking,this.xx, this.yy);
   State<StatefulWidget> createState() {
-    return _SelectScreen(this.parking,this.xx, this.yy);
+    return _SelectScreen(this.parking, this.xx, this.yy);
   }
 }
 
@@ -37,8 +34,7 @@ class _SelectScreen extends State<SelectScreen> {
     if (result) {
       print('카카오내비 앱으로 길안내 가능');
       await NaviApi.instance.navigate(
-        destination:
-        Location(name: '카카오 판교오피스', x: xx, y: yy),
+        destination: Location(name: '장소', x: yy, y: xx),
         option: NaviOption(coordType: CoordType.wgs84),
       );
     } else {

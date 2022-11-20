@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_welcome.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
 

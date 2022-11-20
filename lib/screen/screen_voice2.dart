@@ -29,7 +29,6 @@ class _Voice2 extends State<Voice2> {
     super.initState();
     //int parking = 0;
     //Timer(Duration(seconds: 10), (){
-
     //  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(parking)));
     //});
   }
@@ -103,34 +102,22 @@ class _SpeechScreenState extends State<SpeechScreen>{
 
 
   Future<void> _submit() async {
-
-    print(id);
     String new_name = id;
     new_name = id.replaceAll(' ','');
     print('AAA');
     print(id);
     print(new_name);
-    var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
-    print(url);
-    Map data = {
-     'name': _text
-    };
+    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
+    // print(url);
     var response = await http.get(url);
-
-    //print('Response status: ${response.statusCode}');
-    //print('Response body: ${response.body}');
-
-
-
+    print("0:"+response.body);
+    List<dynamic> latlng = jsonDecode(response.body);
     if(parking == 1){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1,response.body[0],response.body[1])));
-
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, latlng[0].toString(), latlng[1].toString())));
     }
     else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0,response.body[0],response.body[1])));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0, latlng[0].toString(), latlng[1].toString())));
     }
-
-    ////////to popup
   }
 
   late var locales =  _speech2.locales();
@@ -217,19 +204,18 @@ class _SpeechScreenState extends State<SpeechScreen>{
         );
       }
       Timer(Duration(seconds: 5), (){
-
         setState(() => _isListening = false);
         _speech2.stop();
         print(_text);
         print(id);
-        //if (_text.contains('예') || _text.contains('네')){
-
-        //  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1)));
-       // }
-        //else{
-        //  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0)));
-        //}
+        if (_text.contains('예') || _text.contains('네')){
+          parking = 1;
+        }
+        else{
+          parking = 0;
+        }
         _submit();
+
       });
     }else {
       print('aaaaaa');

@@ -18,9 +18,7 @@ class _Voice1 extends State<Voice1> {
   void initState(){
     super.initState();
     //Timer(Duration(seconds: 10), (){
-
     //  Navigator.push(context, MaterialPageRoute(builder: (context) => Voice2(title: _text)));
-
     //});
   }
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class ReturnValue{
 class Arguments {
   String arg;   // 전달에 사용할 데이터
   ReturnValue? returnValue;
-  Arguments({this.arg: '', this.returnValue});
+  Arguments({this.arg = '', this.returnValue});
 }
 
 
@@ -113,7 +111,6 @@ class _SpeechScreenState extends State<SpeechScreen>{
     return Scaffold(
       appBar: AppBar(
         title: Text(''),
-
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -137,7 +134,6 @@ class _SpeechScreenState extends State<SpeechScreen>{
           onComplete: _listen,
           child: Icon(Icons.mic)
         ),
-
       ),
 
       body: SingleChildScrollView(
@@ -155,15 +151,12 @@ class _SpeechScreenState extends State<SpeechScreen>{
               ),
           ),
         ),
-
       ),
-
     );
 
   }
 
   void _listen() async{
-
     if (!_isListening){
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus33: $val'),
@@ -181,15 +174,12 @@ class _SpeechScreenState extends State<SpeechScreen>{
           localeId: 'ko'
         );
       }
-      Timer(Duration(seconds: 5), (){
-
+      Timer(const Duration(seconds: 5), (){
         setState(() => _isListening = false);
         _speech.stop();
         print(_text);
-        Timer(Duration(seconds: 5), (){
-
+        Timer(const Duration(seconds: 3), (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => Voice2(_text)));
-
         });
       });
     }else {

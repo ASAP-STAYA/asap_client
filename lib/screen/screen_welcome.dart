@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:asap_client/screen/screen_voice1.dart';
 import 'package:flutter/material.dart';
-import 'package:asap_client/screen/screen_selection.dart';
-
-
 
 
 class Welcome extends StatefulWidget {

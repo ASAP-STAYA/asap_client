@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 // Naver map LatLng 클래스
 class LocationClass extends LatLng {
@@ -10,7 +9,6 @@ class LocationClass extends LatLng {
   final double longitude;
   const LocationClass({required this.latitude, required this.longitude}) : super(latitude, longitude);
 }
-
 
 class NaviScreen extends StatefulWidget{
   @override
