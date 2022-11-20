@@ -144,14 +144,12 @@ class _SignUpScreen extends State<SignUpScreen> {
       }
 
       return true;
-
-      // _submit();
     }
 
     Future<void> alertSignUpFail() async {
       return showDialog<void>(
         context: context,
-        barrierDismissible: false, // user must tap button!
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text("회원가입 실패"),
@@ -192,90 +190,88 @@ class _SignUpScreen extends State<SignUpScreen> {
         appBar: AppBar(
           title: const Text('회원가입'),
         ),
-        body: Container(
-          child: ListView(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          marginInputForm, height * 0.02, marginInputForm, 0),
-                      child: _inputForm("이름", _nameController, '', width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          marginInputForm, 0, marginInputForm, 0),
-                      child: _inputForm(
-                          "이메일", _emailController, _emailErrorMsg, width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          marginInputForm, 0, marginInputForm, 0),
-                      child: _inputForm("비밀번호", _passwordController,
-                          _passwordErrorMsg, width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(
-                          marginInputForm, 0, marginInputForm, height * 0.055),
-                      child: _inputForm("비밀번호 확인", _passwordCheckController,
-                          _passwordCheckErrorMsg, width)),
-                ],
-              ),
-              const Text(
-                '선호도를 알려주세요!',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(marginInputForm, height * 0.03,
-                        marginInputForm, height * 0.015),
-                    child: _inputPrefer1("기계식 주차장"),
-                  ),
-                  Container(
+        body: ListView(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, height * 0.02, marginInputForm, 0),
+                    child: _inputForm("이름", _nameController, '', width)),
+                Container(
                     margin: EdgeInsets.fromLTRB(
                         marginInputForm, 0, marginInputForm, 0),
-                    child: _inputPrefer1("좁은 주차장"),
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
-                    child: _inputPrefer2(
-                        "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
-                  ),
-                  Container(
-                    margin:
-                        EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-                    child:
-                        _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: height * 0.015)),
-                onPressed: () async {
-                  var isValidated = await _checkValidation();
-                  if (isValidated == true) {
-                    var isSubmitted = await _submit();
-                    if (isSubmitted == true) {
-                      await alertSignUpSuccess();
-                    } else {
-                      await alertSignUpFail();
-                    }
-                  }
-                },
-                child: const Text(
-                  '가입하기',
-                  style: TextStyle(fontSize: 18),
+                    child: _inputForm(
+                        "이메일", _emailController, _emailErrorMsg, width)),
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, 0, marginInputForm, 0),
+                    child: _inputForm("비밀번호", _passwordController,
+                        _passwordErrorMsg, width)),
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, 0, marginInputForm, height * 0.055),
+                    child: _inputForm("비밀번호 확인", _passwordCheckController,
+                        _passwordCheckErrorMsg, width)),
+              ],
+            ),
+            const Text(
+              '선호도를 알려주세요!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(marginInputForm, height * 0.03,
+                      marginInputForm, height * 0.015),
+                  child: _inputPrefer1("기계식 주차장"),
                 ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(
+                      marginInputForm, 0, marginInputForm, 0),
+                  child: _inputPrefer1("좁은 주차장"),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
+                  child: _inputPrefer2(
+                      "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
+                  child:
+                      _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: height * 0.015)),
+              onPressed: () async {
+                var isValidated = await _checkValidation();
+                if (isValidated == true) {
+                  var isSubmitted = await _submit();
+                  if (isSubmitted == true) {
+                    await alertSignUpSuccess();
+                  } else {
+                    await alertSignUpFail();
+                  }
+                }
+              },
+              child: const Text(
+                '가입하기',
+                style: TextStyle(fontSize: 18),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
