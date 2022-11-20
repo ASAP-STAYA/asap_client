@@ -4,23 +4,51 @@ class UserProvider extends ChangeNotifier {
   String _email = "";
   String _password = "";
   String _name = "";
+  double _distPrefer = 0;
+  double _costPrefer = 0;
+  bool _canMechanical = true;
+  bool _canNarrow = true;
 
   String get email => _email;
   String get password => _password;
   String get name => _name;
+  double get distPrefer => _distPrefer;
+  double get costPrefer => _costPrefer;
+  bool get canMechanical => _canMechanical;
+  bool get canNarrow => _canNarrow;
 
-  void set email(String input_email) {
-    _email = input_email;
+  set email(String inputEmail) {
+    _email = inputEmail;
     notifyListeners();
   }
 
-  void set password(String input_password) {
-    _password = input_password;
+  set password(String inputPassword) {
+    _password = inputPassword;
     notifyListeners();
   }
 
-  void set name(String input_name) {
-    _name = input_name;
+  set name(String inputName) {
+    _name = inputName;
+    notifyListeners();
+  }
+
+  set distPrefer(double inputDistPrefer) {
+    _distPrefer = inputDistPrefer;
+    notifyListeners();
+  }
+
+  set costPrefer(double inputCostPrefer) {
+    _costPrefer = inputCostPrefer;
+    notifyListeners();
+  }
+
+  set canMechanical(bool inputCanMechanical) {
+    _canMechanical = inputCanMechanical;
+    notifyListeners();
+  }
+
+  set canNarrow(bool inputCanNarrow) {
+    _canNarrow = inputCanNarrow;
     notifyListeners();
   }
 }
