@@ -19,15 +19,16 @@ class _LoginPageState extends State<LoginPage> {
   late double height;
   late UserProvider _userProvider;
 
-  final _emailErrorMsg = '';
-  final _passwordErrorMsg = '';
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   Future<bool> _submit() async {
     var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
 
-    final logInBody = {'email': 'user@test.com', 'password': '12345678'};
+    final logInBody = {
+      'email': _emailController.text,
+      'password': _passwordController.text
+    };
 
     var response = await http.post(url,
         body: json.encode(logInBody),
@@ -80,12 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                   margin: EdgeInsets.fromLTRB(
                       _marginInputForm, 170, _marginInputForm, 0),
                   child: _inputForm(
-                      "이메일", _emailController, _emailErrorMsg, width)),
+                      "이메일", _emailController, width)),
               Container(
                   margin: EdgeInsets.fromLTRB(
                       _marginInputForm, 20, _marginInputForm, 0),
                   child: _inputForm(
-                      "비밀번호", _passwordController, _passwordErrorMsg, width)),
+                      "비밀번호", _passwordController, width)),
               const SizedBox(height: 80.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -116,35 +117,18 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 Widget _inputForm(String type, TextEditingController textEditingController,
-    String errorMsg, double width) {
+    double width) {
   final TextFormField textFormField;
   if ("이메일" == type) {
     textFormField = TextFormField(
       keyboardType: TextInputType.emailAddress,
       controller: textEditingController,
-      decoration: InputDecoration(
-        label: Text(
-          errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
-        ),
-      ),
     );
-  } else if ("이름" == type) {
-    textFormField = TextFormField(
-      keyboardType: TextInputType.name,
-      controller: textEditingController,
-    );
-  } else if ("비밀번호" == type || "비밀번호 확인" == type) {
+  } else if ("비밀번호" == type) {
     textFormField = TextFormField(
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       controller: textEditingController,
-      decoration: InputDecoration(
-        label: Text(
-          errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 13),
-        ),
-      ),
     );
   } else {
     throw Exception("[ERROR] Invalid argument in _inputForm");
