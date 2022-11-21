@@ -184,7 +184,11 @@ class _SignUpScreen extends State<SignUpScreen> {
             content: const Text("해당 이메일로 가입한 유저가 이미 존재합니다"),
             actions: <Widget>[
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff0f4c81),
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
+
                   child: const Text("확인"))
             ],
           );
@@ -202,6 +206,9 @@ class _SignUpScreen extends State<SignUpScreen> {
             content: const Text("회원가입을 축하드립니다"),
             actions: <Widget>[
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff0f4c81),
+                  ),
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginPage())),
                   child: const Text("확인"))
