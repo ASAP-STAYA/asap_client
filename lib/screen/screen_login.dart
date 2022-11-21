@@ -70,28 +70,35 @@ class _LoginPageState extends State<LoginPage> {
     final _marginInputForm = width * 0.09;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('LOG IN'),
-        ),
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            children: <Widget>[
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
               Container(
-                  margin: EdgeInsets.fromLTRB(
-                      _marginInputForm, 170, _marginInputForm, 0),
-                  child: _inputForm(
-                      "이메일", _emailController, width)),
-              Container(
-                  margin: EdgeInsets.fromLTRB(
-                      _marginInputForm, 20, _marginInputForm, 0),
-                  child: _inputForm(
-                      "비밀번호", _passwordController, width)),
-              const SizedBox(height: 80.0),
-              ElevatedButton(
+                child: const Text(
+                    '로그인',
+                    style: TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF',
+                      fontSize: 30.0,
+                      color: const Color(0xff0f4c81),
+                      fontWeight: FontWeight.w700,
+                    ),
+                    textAlign: TextAlign.center
+                ),
+              ),
+            Container(
+                margin: EdgeInsets.fromLTRB(_marginInputForm, 150, _marginInputForm, 0),
+                child: _inputForm(
+                    "이메일", _emailController, width)),
+            Container(
+                margin: EdgeInsets.fromLTRB(_marginInputForm, 20, _marginInputForm, 0),
+                child: _inputForm("비밀번호", _passwordController, width)),
+            SizedBox(height: 80.0),
+            ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: height * 0.02),
-                  minimumSize: Size(width * 0.5, height * 0.015),
+                    primary: const Color(0xff0f4c81),
+                    padding: EdgeInsets.symmetric(vertical: height * 0.02),
+                    minimumSize: Size(width,50)
                 ),
                 onPressed: () async {
                   await _submit().then((value) {
@@ -105,14 +112,13 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: const Text(
                   '로그인',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -140,7 +146,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       Text(
         type,
         style: const TextStyle(
-            fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
+            fontSize: 18, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
       SizedBox(width: width * 0.4, child: textFormField),
