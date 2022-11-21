@@ -6,6 +6,8 @@ import 'package:asap_client/screen/screen_welcome.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
 
+import 'package:provider/provider.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();

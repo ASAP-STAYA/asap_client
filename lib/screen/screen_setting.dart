@@ -64,7 +64,7 @@ class _SettingScreen extends State<SettingScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       init(context.read<UserProvider>().token).then((_) => setState(() {}));
     });
   }
