@@ -26,7 +26,7 @@ class _Voice1 extends State<Voice1> {
       title: 'Flutter Voice',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primaryColor: const Color(0xff0f4c81),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SpeechScreen(),
@@ -53,47 +53,10 @@ class SpeechScreen extends StatefulWidget{
 
 class _SpeechScreenState extends State<SpeechScreen>{
 
-  final Map<String, HighlightedWord> _highlights = {
-    'flutter': HighlightedWord(
-      onTap: () => print('flutter'),
-      textStyle: const TextStyle(
-        color: Colors.blue,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'voice': HighlightedWord(
-      onTap: () => print('voice'),
-      textStyle: const TextStyle(
-        color: Colors.green,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'subscribe': HighlightedWord(
-      onTap: () => print('subscribe'),
-      textStyle: const TextStyle(
-        color: Colors.red,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'like': HighlightedWord(
-      onTap: () => print('like'),
-      textStyle: const TextStyle(
-        color: Colors.blueAccent,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'comment': HighlightedWord(
-      onTap: () => print('comment'),
-      textStyle: const TextStyle(
-        color: Colors.green,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  };
 
   stt.SpeechToText _speech = stt.SpeechToText();
   bool _isListening = false;
-  String _text = '목적지를 말하세요';
+  String _text = '';
   double _confidence = 1.0;
 
   late var locales =  _speech.locales();
@@ -108,18 +71,20 @@ class _SpeechScreenState extends State<SpeechScreen>{
   @override
   Widget build(BuildContext context){
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-      ),
-
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AvatarGlow(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text(''),
+            backgroundColor: const Color(0xff0f4c81),
+          ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: AvatarGlow(
         animate: _isListening,
-        glowColor: Theme.of(context).primaryColor,
-        endRadius: 75.0,
-        duration: const Duration(milliseconds: 800),
-        repeatPauseDuration: const Duration(milliseconds: 800),
+        glowColor: const Color(0xff0f4c81),
+        endRadius: 80.0,
+        duration: const Duration(milliseconds: 500),
+        repeatPauseDuration: const Duration(milliseconds: 500),
         repeat: true,
 
         //child: FloatingActionButton(
@@ -129,34 +94,57 @@ class _SpeechScreenState extends State<SpeechScreen>{
         child: DurationButton(
           duration: const Duration(seconds: 1),
           onPressed: () {},
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: const Color(0xff0f4c81),
           splashFactory: NoSplash.splashFactory,
+          borderRadius: BorderRadius.circular(100.0),
+          width: 70,
+          height: 70,
           onComplete: _listen,
-          child: Icon(Icons.mic)
+          child: Icon(Icons.mic,size: 30,color: Colors.white,)
         ),
       ),
 
-      body: SingleChildScrollView(
-        reverse: true,
+      body: Center(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+              height: 300,
+              alignment: Alignment(0.0,0.0),
+              child: Column(
 
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-          child: TextHighlight(
-              text: _text,
-              words : LinkedHashMap<String, HighlightedWord>(),
-              textStyle: const TextStyle(
-                fontSize: 32.0,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-          ),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0,0,100),
+                  child: const Text('어디로 안내할까요?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                    fontFamily: 'EliceDigitalBaeum_TTF',
+                    fontSize: 35.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ))),
+                  Text(_text,
+
+                    style: const TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF',
+                      fontSize: 30.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  )
+                ]
+              )
+        )
         ),
+
       ),
     );
+
 
   }
 
   void _listen() async{
+    print("AAAA");
+    print(_text);
     if (!_isListening){
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus33: $val'),
