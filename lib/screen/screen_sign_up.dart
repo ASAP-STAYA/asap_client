@@ -1,15 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:asap_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:asap_client/screen/screen_login.dart';
 
 import '../provider/provider_user.dart';
+
 import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
+  @override
   State<StatefulWidget> createState() {
     return _SignUpScreen();
   }
@@ -36,7 +38,6 @@ class _SignUpScreen extends State<SignUpScreen> {
   late List<bool> isSelectedDistance = [false, false, false, true];
   late List<bool> isSelectedPrice = [false, false, false, true];
 
-
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -45,32 +46,77 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     _userProvider = Provider.of<UserProvider>(context);
 
-    Future<void> _submit() async {
+    void saveInLocal() {
       _userProvider.email = _emailController.text;
       _userProvider.name = _nameController.text;
       _userProvider.password = _passwordController.text;
+      _userProvider.distPrefer = getDistPreferInt();
+      _userProvider.costPrefer = getCostPreferInt();
+      _userProvider.canMechanical = (isSelectedMechanical[0] == false);
+      _userProvider.canNarrow = (isSelectedSmall[0] == false);
+    }
 
-      var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup');
-      Map data = {
+    void savePreferenceInServer(String userId) async {
+      Uri preferenceUri =
+          Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
+
+      final body = jsonEncode({
+        "user_id": userId,
+        "dist_prefer": _userProvider.distPrefer,
+        "cost_prefer": _userProvider.costPrefer,
+        "can_mechanical": _userProvider.canMechanical,
+        "can_narrow": _userProvider.canNarrow,
+      });
+
+      final response = await http
+          .post(preferenceUri,
+              headers: {'content-type': 'application/json'}, body: body)
+          .catchError((onError) => onError);
+
+      if (response.statusCode != 200) {
+        throw Exception("[ERROR] can't create preference of user $userId");
+      }
+    }
+
+    Future<String> saveUserInServer() async {
+      late String userId;
+      Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
+
+      final body = jsonEncode({
         "username": _userProvider.name,
         "email": _userProvider.email,
         "password": _userProvider.password
-      };
-      var response = await http.post(url, body: json.encode(data), headers: {
-        'Content-Type': 'application/json'
       });
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
-      ////////to popup
+      final response = await http
+          .post(userUri,
+              headers: {'content-type': 'application/json'}, body: body)
+          .catchError((onError) => onError);
+
+      if (response.statusCode == 200 && response.body != "[ERROR] same user") {
+        userId = response.body;
+        savePreferenceInServer(response.body);
+        return userId;
+      } else {
+        return "[ERROR] same user";
+      }
     }
 
-    void _checkValidation() async {
+    Future<bool> _submit() async {
+      saveInLocal();
+      final result = await saveUserInServer();
+
+      if (result == "[ERROR] same user") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    Future<bool> _checkValidation() async {
       String emailPattern =
           r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-      RegExp regExp = new RegExp(emailPattern);
+      RegExp regExp = RegExp(emailPattern);
 
       setState(() {
         _emailErrorMsg = "";
@@ -82,99 +128,150 @@ class _SignUpScreen extends State<SignUpScreen> {
         setState(() {
           _emailErrorMsg = "이메일 형식이 올바르지 않습니다";
         });
-        return;
+        return false;
       }
       if (_passwordController.text.length < 8) {
         setState(() {
           _passwordErrorMsg = "비밀번호는 8자리 이상이어야 합니다";
         });
-        return;
+        return false;
       }
       if (_passwordController.text != _passwordCheckController.text) {
         setState(() {
           _passwordCheckErrorMsg = "비밀번호가 일치하지 않습니다";
         });
-        return;
+        return false;
       }
 
-      _submit();
+      return true;
     }
 
-    final _marginInputForm = width * 0.08;
+    Future<void> alertSignUpFail() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("회원가입 실패"),
+            content: const Text("해당 이메일로 가입한 유저가 이미 존재합니다"),
+            actions: <Widget>[
+              ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text("확인"))
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> alertSignUpSuccess() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("회원가입 성공"),
+            content: const Text("회원가입을 축하드립니다"),
+            actions: <Widget>[
+              ElevatedButton(
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage())),
+                  child: const Text("확인"))
+            ],
+          );
+        },
+      );
+    }
+
+    final marginInputForm = width * 0.08;
 
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text('회원가입'),
         ),
-        body: Container(
-          child: ListView(
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.02, _marginInputForm, 0),
-                      child: _inputForm("이름", _nameController, '', width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
-                      child: _inputForm(
-                          "이메일", _emailController, _emailErrorMsg, width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
-                      child: _inputForm("비밀번호", _passwordController,
-                          _passwordErrorMsg, width)),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, height * 0.055),
-                      child: _inputForm("비밀번호 확인", _passwordCheckController,
-                          _passwordCheckErrorMsg, width)),
-                ],
-              ),
-              const Text(
-                '선호도를 알려주세요!',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.03, _marginInputForm, height * 0.015),
-                    child: _inputPrefer1("기계식 주차장"),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
-                    child: _inputPrefer1("좁은 주차장"),
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
-                    child: _inputPrefer2(
-                        "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-                    child:
-                        _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: height * 0.015)),
-                onPressed: () => _checkValidation(),
-                child: const Text(
-                  '가입하기',
-                  style: TextStyle(fontSize: 18),
+        body: ListView(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, height * 0.02, marginInputForm, 0),
+                    child: _inputForm("이름", _nameController, '', width)),
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, 0, marginInputForm, 0),
+                    child: _inputForm(
+                        "이메일", _emailController, _emailErrorMsg, width)),
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, 0, marginInputForm, 0),
+                    child: _inputForm("비밀번호", _passwordController,
+                        _passwordErrorMsg, width)),
+                Container(
+                    margin: EdgeInsets.fromLTRB(
+                        marginInputForm, 0, marginInputForm, height * 0.055),
+                    child: _inputForm("비밀번호 확인", _passwordCheckController,
+                        _passwordCheckErrorMsg, width)),
+              ],
+            ),
+            const Text(
+              '선호도를 알려주세요!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(marginInputForm, height * 0.03,
+                      marginInputForm, height * 0.015),
+                  child: _inputPrefer1("기계식 주차장"),
                 ),
-
+                Container(
+                  margin: EdgeInsets.fromLTRB(
+                      marginInputForm, 0, marginInputForm, 0),
+                  child: _inputPrefer1("좁은 주차장"),
+                )
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
+                  child: _inputPrefer2(
+                      "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
+                  child:
+                      _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                ),
+              ],
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: height * 0.015)),
+              onPressed: () async {
+                var isValidated = await _checkValidation();
+                if (isValidated == true) {
+                  var isSubmitted = await _submit();
+                  if (isSubmitted == true) {
+                    await alertSignUpSuccess();
+                  } else {
+                    await alertSignUpFail();
+                  }
+                }
+              },
+              child: const Text(
+                '가입하기',
+                style: TextStyle(fontSize: 18),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -277,7 +374,8 @@ class _SignUpScreen extends State<SignUpScreen> {
               );
             },
             borderRadius: BorderRadius.circular(9),
-            constraints: BoxConstraints(minHeight: height * 0.045, minWidth: width * 0.2),
+            constraints: BoxConstraints(
+                minHeight: height * 0.045, minWidth: width * 0.2),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
@@ -310,6 +408,30 @@ class _SignUpScreen extends State<SignUpScreen> {
             ]),
       ],
     );
+  }
+
+  double getDistPreferInt() {
+    if (isSelectedDistance[0]) {
+      return 0.5;
+    } else if (isSelectedDistance[1]) {
+      return 1.0;
+    } else if (isSelectedDistance[2]) {
+      return 1.5;
+    } else {
+      return 0.0;
+    }
+  }
+
+  double getCostPreferInt() {
+    if (isSelectedPrice[0]) {
+      return 500;
+    } else if (isSelectedPrice[1]) {
+      return 1000;
+    } else if (isSelectedPrice[2]) {
+      return 1500;
+    } else {
+      return 0.0;
+    }
   }
 }
 
@@ -355,8 +477,8 @@ Widget _inputForm(String type, TextEditingController textEditingController,
         type,
         textAlign: TextAlign.center,
         style: const TextStyle(
-            fontSize: 18,
-            fontFeatures: [FontFeature.tabularFigures()],
+          fontSize: 18,
+          fontFeatures: [FontFeature.tabularFigures()],
         ),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
@@ -364,4 +486,3 @@ Widget _inputForm(String type, TextEditingController textEditingController,
     ],
   );
 }
-
