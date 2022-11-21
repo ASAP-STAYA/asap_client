@@ -103,12 +103,20 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('회원가입'),
-        ),
+
         body: Container(
           child: ListView(
             children: <Widget>[
+              const Text(
+                  '회원가입',
+                  style: TextStyle(
+                    fontFamily: 'EliceDigitalBaeum_TTF',
+                    fontSize: 30.0,
+                    color: const Color(0xff0f4c81),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -132,7 +140,7 @@ class _SignUpScreen extends State<SignUpScreen> {
               const Text(
                 '선호도를 알려주세요!',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: 'EliceDigitalBaeum_TTF'),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,11 +172,13 @@ class _SignUpScreen extends State<SignUpScreen> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: height * 0.015)),
+                    padding: EdgeInsets.symmetric(vertical: height * 0.015),
+                    backgroundColor: const Color(0xff0f4c81),
+                    minimumSize: Size(150,50),),
                 onPressed: () => _checkValidation(),
                 child: const Text(
                   '가입하기',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),
                 ),
 
               ),
@@ -196,9 +206,11 @@ class _SignUpScreen extends State<SignUpScreen> {
         Text(
           type,
           style: const TextStyle(
-              fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
+              fontSize: 18, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
         ToggleButtons(
+            selectedColor: Colors.white,
+            fillColor: const Color(0xff456795),
             isSelected: isSelected,
             onPressed: (int index) {
               setState(() {
@@ -218,14 +230,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '안 가!',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '상관 없어',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ])
@@ -251,10 +263,13 @@ class _SignUpScreen extends State<SignUpScreen> {
           padding: EdgeInsets.only(bottom: height * 0.015),
           child: Text(
             type,
-            style: const TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 18, fontFamily: 'EliceDigitalBaeum_TTF'),
+
           ),
         ),
         ToggleButtons(
+            selectedColor: Colors.white,
+            fillColor: const Color(0xff456795),
             isSelected: isSelected,
             onPressed: (int index) {
               setState(
@@ -282,28 +297,29 @@ class _SignUpScreen extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ]),
@@ -322,7 +338,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 14),
+          style: const TextStyle(color: Colors.red, fontSize: 14,fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
       ),
     );
@@ -339,7 +355,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 13),
+          style: const TextStyle(color: Colors.red, fontSize: 13,fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
       ),
     );
@@ -356,6 +372,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
         style: const TextStyle(
             fontSize: 18,
             fontFeatures: [FontFeature.tabularFigures()],
+            fontFamily: 'EliceDigitalBaeum_TTF'
         ),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
