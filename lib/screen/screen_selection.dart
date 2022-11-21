@@ -58,8 +58,13 @@ class _SelectScreen extends State<SelectScreen> {
             title: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new Text("안내받은 주차장은 어떠셨나요"),
-                new Text("별점을 남겨주세요!"),
+                new Text("안내받은 주차장은 어떠셨나요?",style: TextStyle(
+              fontFamily: 'EliceDigitalBaeum_TTF',fontWeight: FontWeight.w700)),
+                Padding(
+                  padding: EdgeInsets.all(height*0.001),
+                ),
+                new Text("별점을 남겨주세요!",style: TextStyle(
+                  fontFamily: 'EliceDigitalBaeum_TTF',fontWeight: FontWeight.w700)),
               ],
             ),
             content:
@@ -78,6 +83,9 @@ class _SelectScreen extends State<SelectScreen> {
                                 padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                                 child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xff0f4c81),
+                                  ),
                                   onPressed: (){
                                     Navigator.pop(context);
                                     Navigator.push(context,
@@ -86,7 +94,7 @@ class _SelectScreen extends State<SelectScreen> {
                                   icon: Icon(Icons.mood,size:18),
                                   label: Text(
                                     '만족해요!',
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                    style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                                   ),
                                 ),
                               ),
@@ -96,11 +104,14 @@ class _SelectScreen extends State<SelectScreen> {
                                 padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                                 child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xff0f4c81),
+                                  ),
                                   onPressed: () => {Review_Reason_Dialog()},
                                   icon: Icon(Icons.mood_bad,size:18),
                                   label:Text(
                                     '별로예요',
-                                    style: TextStyle(fontSize: 20, color: Colors.white),
+                                    style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                                   ),
                                 ),
                               ),
@@ -128,7 +139,8 @@ class _SelectScreen extends State<SelectScreen> {
             title: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new Text("어떤점이 불만족스러우셨나요?")
+                new Text("어떤점이 불만족스러우셨나요?", style: TextStyle(
+                  fontFamily: 'EliceDigitalBaeum_TTF',fontWeight: FontWeight.w700))
               ],
             ),
             content:
@@ -147,6 +159,9 @@ class _SelectScreen extends State<SelectScreen> {
                           padding:
                           EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff0f4c81),
+                            ),
                             onPressed: (){
                               Navigator.pop(context);
                               Navigator.push(context,
@@ -155,7 +170,7 @@ class _SelectScreen extends State<SelectScreen> {
                             icon: Icon(Icons.directions_car_rounded,size:18),
                             label: Text(
                               '거리가 멀어요',
-                              style: TextStyle(fontSize: 20, color: Colors.white),
+                              style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
                           ),
                         ),
@@ -165,6 +180,9 @@ class _SelectScreen extends State<SelectScreen> {
                           padding:
                           EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff0f4c81),
+                            ),
                             onPressed: (){
                               Navigator.pop(context);
                               Navigator.push(context,
@@ -172,7 +190,7 @@ class _SelectScreen extends State<SelectScreen> {
                             icon: Icon(Icons.attach_money_rounded,size:18),
                             label:Text(
                               '요금이 비싸요',
-                              style: TextStyle(fontSize: 20, color: Colors.white),
+                              style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
                           ),
                         ),
@@ -216,8 +234,6 @@ class _SelectScreen extends State<SelectScreen> {
 
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(title: Text("Recommendations For You!"),
-                backgroundColor: Colors.deepPurpleAccent),
 
             body: Container(
                 child: Center(
@@ -225,48 +241,63 @@ class _SelectScreen extends State<SelectScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-
                         Padding(
-                          padding: EdgeInsets.all(height*0.03),
+                          padding: EdgeInsets.all(height*0.001),
+                        ),
+                        const Text(
+                            '안내 시작',
+                            style: TextStyle(
+                              fontFamily: 'EliceDigitalBaeum_TTF',
+                              fontSize: 40.0,
+                              color: const Color(0xff0f4c81),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.center
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(height*0.05),
                         ),
                         if(parking == 1)...[
                           const Text(
                             '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(height*0.03),
+                            padding: EdgeInsets.all(height*0.05),
                           ),
                           const Text(
                             '신수동 공영주차장',
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 30,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                           const Text(
                             '남은 거리 560m',
-                            style: TextStyle(fontSize:18),
+                            style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                           const Text(
                             '예상 요금 : 2100원',
-                            style: TextStyle(fontSize:18),
+                            style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                         ]
                         else ...[
                           const Text(
                             '입력한 목적지로 안내를 시작합니다',
                             textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(height*0.03),
+                            padding: EdgeInsets.all(height*0.1),
                           ),
                           const Text(
                             '홍원',
-                            style: TextStyle(fontSize: 30),
+                            style: TextStyle(fontSize: 30,fontFamily: 'EliceDigitalBaeum_TTF', fontWeight: FontWeight.w700),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(height*0.02),
                           ),
                           const Text(
                             '남은 거리 560m',
-                            style: TextStyle(fontSize:18),
+                            style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                         ]
                       ],

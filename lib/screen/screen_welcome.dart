@@ -22,7 +22,7 @@ class _Welcome extends State<Welcome> {
       title: 'Welcome to Flutter',
       home: Scaffold(
         body: Center(
-          child: Text('반가워요!',style:TextStyle(fontSize: 25)),
+          child: Text('반가워요!',style:TextStyle(fontSize: 25,fontFamily: 'EliceDigitalBaeum_TTF',fontWeight: FontWeight.w700)),
         ),
       ),
     );

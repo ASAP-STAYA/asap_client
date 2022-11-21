@@ -102,73 +102,70 @@ class _SettingScreen extends State<SettingScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('개인 설정'),
-        ),
-        body: ListView(
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              _userProvider.name,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(marginInputForm, height * 0.03,
-                      marginInputForm, height * 0.015),
-                  child: _inputPrefer1("기계식 주차장"),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(
-                      marginInputForm, 0, marginInputForm, 0),
-                  child: _inputPrefer1("좁은 주차장"),
-                )
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
-                  child: _inputPrefer2(
-                      "거리",
-                      distanceToString(distances[0]),
-                      distanceToString(distances[1]),
-                      distanceToString(distances[2]),
-                      distanceToString(distances[3])),
-                ),
-                Container(
-                  margin:
-                      EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-                  child: _inputPrefer2(
-                      "요금",
-                      costToString(costs[0]),
-                      costToString(costs[1]),
-                      costToString(costs[2]),
-                      costToString(costs[3])),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: height * 0.015)),
-              onPressed: () async {
-                await _submit().then((isSubmitted) {
-                  if (isSubmitted = true) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const MyApp()));
-                  }
-                });
-              },
+            Container(
+
               child: const Text(
-                '설정 저장하기',
-                style: TextStyle(fontSize: 18),
+                  '설정',
+                  style: TextStyle(
+                    fontFamily: 'EliceDigitalBaeum_TTF',
+                    fontSize: 30.0,
+                    color: const Color(0xff0f4c81),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center
               ),
             ),
-          ],
-        ),
+            Container(
+              child: Text(
+                _userProvider.name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(marginInputForm, height * 0.05,
+                  marginInputForm, height * 0.015),
+              child: _inputPrefer1("기계식 주차장"),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                  marginInputForm, 0, marginInputForm, 0),
+              child: _inputPrefer1("좁은 주차장"),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(0, height * 0.05, 0, 0),
+              child: _inputPrefer2(
+                  "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+            ),
+            Container(
+              margin:
+              EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
+              child:
+              _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+            ),
+            Container(
+
+              child:
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff0f4c81),
+                    padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                    minimumSize: Size(width,50),),
+                onPressed: () => _submit(),
+                //onPressed: () => {},
+                child: const Text(
+                  '확인',
+                  style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),
+                ),
+              ),
+            )
+          ]
+        )
+
       ),
     );
   }
@@ -190,9 +187,11 @@ class _SettingScreen extends State<SettingScreen> {
         Text(
           type,
           style: const TextStyle(
-              fontSize: 18, fontFeatures: [FontFeature.tabularFigures()]),
+              fontSize: 22, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
         ToggleButtons(
+            selectedColor: Colors.white,
+            fillColor: const Color(0xff456795),
             isSelected: isSelected,
             onPressed: (int index) {
               setState(() {
@@ -206,20 +205,20 @@ class _SettingScreen extends State<SettingScreen> {
               });
             },
             borderRadius: BorderRadius.circular(10),
-            constraints: BoxConstraints(minHeight: height * 0.045),
+            constraints: BoxConstraints(minHeight: height * 0.05),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '안 가!',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '상관 없어',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ])
@@ -245,10 +244,12 @@ class _SettingScreen extends State<SettingScreen> {
           padding: EdgeInsets.only(bottom: height * 0.015),
           child: Text(
             type,
-            style: const TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
           ),
         ),
         ToggleButtons(
+            selectedColor: Colors.white,
+            fillColor: const Color(0xff456795),
             isSelected: isSelected,
             onPressed: (int index) {
               setState(
@@ -271,34 +272,34 @@ class _SettingScreen extends State<SettingScreen> {
             },
             borderRadius: BorderRadius.circular(9),
             constraints: BoxConstraints(
-                minHeight: height * 0.045, minWidth: width * 0.2),
+                minHeight: height * 0.05, minWidth: width * 0.2),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ]),

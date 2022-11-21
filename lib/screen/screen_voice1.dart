@@ -76,7 +76,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
         home: Scaffold(
           appBar: AppBar(
             title: const Text(''),
-            backgroundColor: const Color(0xff0f4c81),
+
           ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
