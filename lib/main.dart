@@ -10,6 +10,8 @@ import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:provider/provider.dart';
 
+import 'package:asap_client/screen/screen_welcome.dart';
+
 void main() async {
   // kakao api 시작
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,35 +83,47 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             IconButton(
                 icon: Image.asset('images/playstore.png'),
-                iconSize: width*0.75,
+                iconSize: width*0.35,
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Voice1())),
             ),
 
             Padding(
-              padding: EdgeInsets.all(width * 0.025),
+              padding: EdgeInsets.all(width * 0.075),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff0f4c81),
+              ),
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignUpScreen())),
-              child: Text('회원가입'),
+              child: const Text('회원가입',style: TextStyle(
+                fontFamily: 'EliceDigitalBaeum_TTF')),
             ),
             Padding(
-              padding: EdgeInsets.all(width * 0.002),
+              padding: EdgeInsets.all(width * 0.005),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff0f4c81),
+              ),
               onPressed: () =>
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => LoginPage())),
-              child: Text('로그인'),
+              child: const Text('로그인',style: TextStyle(
+                  fontFamily: 'EliceDigitalBaeum_TTF')),
             ),
            Padding(
-              padding: EdgeInsets.all(width * 0.002),
+              padding: EdgeInsets.all(width * 0.005),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff0f4c81),
+              ),
               onPressed: () =>
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: Text('Settings'),
+              child: const Text('설정',style: TextStyle(
+                  fontFamily: 'EliceDigitalBaeum_TTF')),
             ),
           ],
         ),

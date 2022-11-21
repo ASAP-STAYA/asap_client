@@ -111,4 +111,11 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
+  fonts:
+    - family: EliceDigitalBaeum_TTF
+      fonts:
+        - asset: assets/font/EliceDigitalBaeum_TTF/EliceDigitalBaeum_Regular.ttf
+          weight: 300
+        - asset: assets/font/EliceDigitalBaeum_TTF/EliceDigitalBaeum_Bold.ttf
+          weight: 700
   # see https://flutter.dev/custom-fonts/#from-packages
