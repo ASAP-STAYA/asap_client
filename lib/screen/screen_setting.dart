@@ -1,12 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:asap_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../provider/provider_user.dart';
+import '../util/util_distance.dart';
+import '../util/util_cost.dart';
 
 class SettingScreen extends StatefulWidget {
+  @override
   State<StatefulWidget> createState() {
     return _SettingScreen();
   }
@@ -19,10 +25,49 @@ class _SettingScreen extends State<SettingScreen> {
 
   late UserProvider _userProvider;
 
-  late List<bool> isSelectedMechanical = [false, true];
-  late List<bool> isSelectedSmall = [false, true];
-  late List<bool> isSelectedDistance = [false, false, false, true];
-  late List<bool> isSelectedPrice = [false, false, false, true];
+  late List<bool> isSelectedMechanical = [false, false];
+  late List<bool> isSelectedSmall = [false, false];
+  late List<bool> isSelectedDistance = [false, false, false, false];
+  late List<bool> isSelectedPrice = [false, false, false, false];
+
+  Future<void> init(String token) async {
+    Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
+
+    final response = await http.get(patchUri, headers: {
+      HttpHeaders.authorizationHeader: token,
+      'content-type': 'application/json'
+    });
+
+    if (response.statusCode != 200) {
+      throw Exception("[ERROR] Can't get user preference from server");
+    }
+
+    final body = jsonDecode(response.body);
+
+    isSelectedDistance[getIndexOfDistance(body["dist_prefer"])] = true;
+    isSelectedPrice[getIndexOfCost(body["cost_prefer"])] = true;
+
+    if (body["can_mechanical"] == true) {
+      isSelectedMechanical[1] = true;
+    } else {
+      isSelectedMechanical[0] = true;
+    }
+
+    if (body["can_narrow"] == true) {
+      isSelectedSmall[1] = true;
+    } else {
+      isSelectedSmall[0] = true;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      init(context.read<UserProvider>().token).then((_) => setState(() {}));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +77,25 @@ class _SettingScreen extends State<SettingScreen> {
 
     _userProvider = Provider.of<UserProvider>(context);
 
-    void _submit() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MyApp()));
+    Future<bool> _submit() async {
+      Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
+
+      final body = jsonEncode({
+        "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
+        "cost_prefer": getCostFromSelectedList(isSelectedPrice),
+        "can_mechanical": (isSelectedMechanical[0] == false),
+        "can_narrow": (isSelectedSmall[0] == false),
+      });
+
+      final response = await http.patch(patchUri, body: body, headers: {
+        HttpHeaders.authorizationHeader: _userProvider.token,
+        'content-type': 'application/json'
+      });
+
+      if (response.statusCode != 200) {
+        return false;
+      }
+      return true;
     }
 
     final marginInputForm = width * 0.09;
@@ -51,11 +112,6 @@ class _SettingScreen extends State<SettingScreen> {
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            // const Text(
-            //   '선호도를 알려주세요!',
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            // ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -77,22 +133,37 @@ class _SettingScreen extends State<SettingScreen> {
                 Container(
                   margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
                   child: _inputPrefer2(
-                      "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                      "거리",
+                      distanceToString(distances[0]),
+                      distanceToString(distances[1]),
+                      distanceToString(distances[2]),
+                      distanceToString(distances[3])),
                 ),
                 Container(
                   margin:
                       EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-                  child:
-                      _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                  child: _inputPrefer2(
+                      "요금",
+                      costToString(costs[0]),
+                      costToString(costs[1]),
+                      costToString(costs[2]),
+                      costToString(costs[3])),
                 ),
               ],
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.015)),
-              onPressed: () => _submit(),
+              onPressed: () async {
+                await _submit().then((isSubmitted) {
+                  if (isSubmitted = true) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const MyApp()));
+                  }
+                });
+              },
               child: const Text(
-                '확인',
+                '설정 저장하기',
                 style: TextStyle(fontSize: 18),
               ),
             ),
@@ -235,4 +306,3 @@ class _SettingScreen extends State<SettingScreen> {
     );
   }
 }
-
