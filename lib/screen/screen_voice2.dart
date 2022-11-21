@@ -71,6 +71,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
     print('AAA');
     print(id);
     print(new_name);
+    // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
     var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
     // print(url);
     var response = await http.get(url);

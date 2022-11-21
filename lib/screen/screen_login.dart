@@ -23,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   Future<bool> _submit() async {
-    var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
+    // var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
+    // var url = Uri.parse('http://localhost:8080/api/auth/signin');
+    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
 
     final logInBody = {
       'email': _emailController.text,

@@ -80,11 +80,11 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.canNarrow = (isSelectedSmall[0] == false);
     }
 
-
-
     void savePreferenceInServer(String userId) async {
       Uri preferenceUri =
-          Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
+          // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
+          // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
+          Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/preference/");
 
       final body = jsonEncode({
         "user_id": userId,
@@ -106,7 +106,9 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     Future<String> saveUserInServer() async {
       late String userId;
-      Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
+      // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
+      // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
+      Uri userUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
@@ -283,8 +285,19 @@ class _SignUpScreen extends State<SignUpScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.015),
                   primary: const Color(0xff0f4c81),
-                  minimumSize: Size(150,50),),
-                onPressed: () => _checkValidation(),
+                  minimumSize: Size(150,50),
+                ),
+                onPressed: () async {
+                  var isValidated = await _checkValidation();
+                  if (isValidated == true) {
+                    var isSubmitted = await _submit();
+                    if (isSubmitted == true) {
+                      await alertSignUpSuccess();
+                    } else {
+                      await alertSignUpFail();
+                    }
+                  }
+                },
                 child: const Text(
                   '가입하기',
                   style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),

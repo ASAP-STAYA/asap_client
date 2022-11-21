@@ -149,9 +149,5 @@ class _NaviScreen extends State<NaviScreen> {
     _controller.complete(controller);
   }
 
-
-
-
-
 }
 
