@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff0f4c81),
+                primary: const Color(0xff0f4c81),
                 minimumSize: Size(150,50),
               ),
 
@@ -119,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff0f4c81),
+                primary: const Color(0xff0f4c81),
                 minimumSize: Size(150,50),
               ),
               onPressed: () =>
@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff0f4c81),
+                primary: const Color(0xff0f4c81),
                 minimumSize: Size(150,50),
               ),
               onPressed: () =>

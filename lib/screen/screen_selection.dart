@@ -84,7 +84,7 @@ class _SelectScreen extends State<SelectScreen> {
                                 EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                                 child: ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff0f4c81),
+                                    primary: const Color(0xff0f4c81),
                                   ),
                                   onPressed: (){
                                     Navigator.pop(context);
@@ -105,7 +105,7 @@ class _SelectScreen extends State<SelectScreen> {
                                 EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                                 child: ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff0f4c81),
+                                    primary: const Color(0xff0f4c81),
                                   ),
                                   onPressed: () => {Review_Reason_Dialog()},
                                   icon: Icon(Icons.mood_bad,size:18),
@@ -160,7 +160,7 @@ class _SelectScreen extends State<SelectScreen> {
                           EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff0f4c81),
+                              primary: const Color(0xff0f4c81),
                             ),
                             onPressed: (){
                               Navigator.pop(context);
@@ -181,7 +181,7 @@ class _SelectScreen extends State<SelectScreen> {
                           EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff0f4c81),
+                              primary: const Color(0xff0f4c81),
                             ),
                             onPressed: (){
                               Navigator.pop(context);

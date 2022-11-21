@@ -152,7 +152,7 @@ class _SettingScreen extends State<SettingScreen> {
               child:
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff0f4c81),
+                    primary: const Color(0xff0f4c81),
                     padding: EdgeInsets.symmetric(vertical: height * 0.01),
                     minimumSize: Size(width,50),),
                 onPressed: () => _submit(),

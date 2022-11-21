@@ -38,6 +38,30 @@ class _SignUpScreen extends State<SignUpScreen> {
   late List<bool> isSelectedDistance = [false, false, false, true];
   late List<bool> isSelectedPrice = [false, false, false, true];
 
+  double getDistPreferInt() {
+    if (isSelectedDistance[0]) {
+      return 0.5;
+    } else if (isSelectedDistance[1]) {
+      return 1.0;
+    } else if (isSelectedDistance[2]) {
+      return 1.5;
+    } else {
+      return 0.0;
+    }
+  }
+
+  double getCostPreferInt() {
+    if (isSelectedPrice[0]) {
+      return 500;
+    } else if (isSelectedPrice[1]) {
+      return 1000;
+    } else if (isSelectedPrice[2]) {
+      return 1500;
+    } else {
+      return 0.0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -55,6 +79,8 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.canMechanical = (isSelectedMechanical[0] == false);
       _userProvider.canNarrow = (isSelectedSmall[0] == false);
     }
+
+
 
     void savePreferenceInServer(String userId) async {
       Uri preferenceUri =
@@ -256,7 +282,7 @@ class _SignUpScreen extends State<SignUpScreen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.015),
-                  backgroundColor: const Color(0xff0f4c81),
+                  primary: const Color(0xff0f4c81),
                   minimumSize: Size(150,50),),
                 onPressed: () => _checkValidation(),
                 child: const Text(
@@ -410,6 +436,8 @@ class _SignUpScreen extends State<SignUpScreen> {
     );
   }
 }
+
+
 
 Widget _inputForm(String type, TextEditingController textEditingController,
     String errorMsg, double width) {
