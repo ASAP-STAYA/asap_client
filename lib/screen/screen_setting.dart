@@ -33,8 +33,7 @@ class _SettingScreen extends State<SettingScreen> {
   Future<void> init(String token) async {
     // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
     //  Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
-    Uri patchUri = Uri.parse(
-        "http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
+    Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
     final response = await http.get(patchUri, headers: {
       HttpHeaders.authorizationHeader: token,
@@ -83,8 +82,7 @@ class _SettingScreen extends State<SettingScreen> {
     Future<bool> _submit() async {
       // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
       // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
-      Uri patchUri = Uri.parse(
-          "http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
+      Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
       final body = jsonEncode({
         "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),

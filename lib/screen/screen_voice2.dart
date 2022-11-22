@@ -68,14 +68,15 @@ class _SpeechScreenState extends State<SpeechScreen> {
     print(new_name);
 
     // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
-    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
+    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name); // 목적지 latlng
     var response = await http.get(url);
     print("0:" + response.body);
     List<dynamic> latlng = jsonDecode(response.body);
     // 네 주차필요
     if (parking == 1) {
       // url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
-      url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/hasParkingLot?searching='+new_name);
+      // 목적지에 주차장
+      url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/hasParkingLot?searching=${new_name}&lat=${latlng[0]}&lng=${latlng[1]}');
 
       var response = await http.get(url);
       print("parking 1::" + response.body);
@@ -89,16 +90,17 @@ class _SpeechScreenState extends State<SpeechScreen> {
                     1, new_name, latlng[0].toString(), latlng[1].toString())));
       } else {
         // 추천 api 전송
-        // url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
-        // url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
+        // url = Uri.parse('http://localhost:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
+        // url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
 
         print("parking 11::" + response.body);
-        List<dynamic> new_latlng = jsonDecode(response.body); // 목적지 주차장 lat lng
+        final body = jsonDecode(response.body); // 목적지 주차장 lat lng
+        print(body);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => SelectScreen(1, new_name,
-                    new_latlng[0].toString(), new_latlng[1].toString())));
+                    body['lat'].toString(), body['lng'].toString())));
       }
     } else {
       // 아니오 주차 안함 -> 바로 목적지 경도로 안내

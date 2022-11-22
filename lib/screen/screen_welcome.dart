@@ -26,6 +26,8 @@ class _Welcome extends State<Welcome> {
           title: Text(''),
           backgroundColor: const Color(0xff0f4c81),
         ),
+
+
         body: const Center(
           child: Text('반가워요!',
               style: TextStyle(
