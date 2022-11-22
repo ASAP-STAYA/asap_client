@@ -54,6 +54,9 @@ class _LoginPageState extends State<LoginPage> {
           content: const Text("이메일 또는 비밀번호를 다시 확인해주세요"),
           actions: <Widget>[
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: const Color(0xff0f4c81),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Text("확인"))
           ],
