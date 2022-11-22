@@ -23,12 +23,11 @@ void main() async {
     //isJavaScriptAppKey: '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
-  runApp(MultiProvider(
-      providers: [
-        ListenableProvider(create: (_) => UserProvider()),
-      ],
-      child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ListenableProvider(create: (_) => UserProvider()),
+  ], child: MyApp()));
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({key});
 
@@ -36,19 +35,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ASAP',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SplashScreen(
-        seconds: 2,
-        navigateAfterSeconds:MyHomePage(title: 'ASAP'),
-        image: new Image.asset('assets/images/image.png',alignment: Alignment.center,),
-        photoSize: 200.0,
-        backgroundColor: Color(0xff0f4c81),
-      )
-      // home: SignUpScreen(),
-    );
+        title: 'ASAP',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SplashScreen(
+          seconds: 2,
+          navigateAfterSeconds: MyHomePage(title: 'ASAP'),
+          image: new Image.asset(
+            'assets/images/image.png',
+            alignment: Alignment.center,
+          ),
+          photoSize: 200.0,
+          backgroundColor: Color(0xff0f4c81),
+        )
+        // home: SignUpScreen(),
+        );
   }
 }
 
@@ -62,7 +64,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   late Size screenSize;
   late double width;
   late double height;
@@ -70,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initSate() {
     super.initState();
-
   }
 
   @override
@@ -80,39 +80,35 @@ class _MyHomePageState extends State<MyHomePage> {
     height = screenSize.height;
 
     final ButtonStyle style = ElevatedButton.styleFrom(
-        textStyle: const TextStyle(fontSize: 40),
-        minimumSize: Size(200, 100));
+        textStyle: const TextStyle(fontSize: 40), minimumSize: Size(200, 100));
 
     return Scaffold(
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
-            Text(
-              'ASAP',
-              style: const TextStyle(
-                fontFamily: 'EliceDigitalBaeum_TTF',
-                fontSize: 80.0,
-                color: const Color(0xff0f4c81),
-                fontWeight: FontWeight.w700,
-              )
-            ),
+            Text('ASAP',
+                style: const TextStyle(
+                  fontFamily: 'EliceDigitalBaeum_TTF',
+                  fontSize: 80.0,
+                  color: const Color(0xff0f4c81),
+                  fontWeight: FontWeight.w700,
+                )),
             Padding(
               padding: EdgeInsets.all(width * 0.105),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: const Color(0xff0f4c81),
-                minimumSize: Size(150,50),
+                minimumSize: Size(150, 50),
               ),
-
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignUpScreen())),
-              child: const Text('회원가입',style: TextStyle(
-                fontFamily: 'EliceDigitalBaeum_TTF',
-                fontSize: 20.0,)),
+              child: const Text('회원가입',
+                  style: TextStyle(
+                    fontFamily: 'EliceDigitalBaeum_TTF',
+                    fontSize: 20.0,
+                  )),
             ),
             Padding(
               padding: EdgeInsets.all(width * 0.010),
@@ -120,34 +116,31 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: const Color(0xff0f4c81),
-                minimumSize: Size(150,50),
+                minimumSize: Size(150, 50),
               ),
-              onPressed: () =>
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage())),
-              child: const Text('로그인',style: TextStyle(
-                  fontFamily: 'EliceDigitalBaeum_TTF',
-                  fontSize: 20.0)),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage())),
+              child: const Text('로그인',
+                  style: TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF', fontSize: 20.0)),
             ),
-           Padding(
+            Padding(
               padding: EdgeInsets.all(width * 0.010),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: const Color(0xff0f4c81),
-                minimumSize: Size(150,50),
+                minimumSize: Size(150, 50),
               ),
-              onPressed: () =>
-              Navigator.push(context,
+              onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingScreen())),
-              child: const Text('설정',style: TextStyle(
-                  fontFamily: 'EliceDigitalBaeum_TTF',
-                  fontSize: 20.0)),
+              child: const Text('설정',
+                  style: TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF', fontSize: 20.0)),
             ),
           ],
         ),
       ),
-
     );
   }
 }

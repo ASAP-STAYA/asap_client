@@ -11,9 +11,8 @@ import 'package:speech_to_text/speech_to_text.dart' as stt2;
 import 'package:duration_button/duration_button.dart';
 import 'package:http/http.dart' as http;
 
-
 class Voice2 extends StatefulWidget {
-  String id='';
+  String id = '';
   Voice2(this.id);
 
   @override
@@ -21,18 +20,18 @@ class Voice2 extends StatefulWidget {
 }
 
 class _Voice2 extends State<Voice2> {
-  String id='';
+  String id = '';
   _Voice2(this.id);
 
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     //int parking = 0;
     //Timer(Duration(seconds: 10), (){
     //  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(parking)));
     //});
   }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Voice',
@@ -46,68 +45,78 @@ class _Voice2 extends State<Voice2> {
   }
 }
 
-class SpeechScreen extends StatefulWidget{
-  String id='';
+class SpeechScreen extends StatefulWidget {
+  String id = '';
   SpeechScreen(this.id);
   @override
   _SpeechScreenState createState() => _SpeechScreenState(id);
 }
 
-class _SpeechScreenState extends State<SpeechScreen>{
-  String id='';
+class _SpeechScreenState extends State<SpeechScreen> {
+  String id = '';
   _SpeechScreenState(this.id);
-
-
 
   stt2.SpeechToText _speech2 = stt2.SpeechToText();
   bool _isListening = false;
-  String _text =  '';
+  String _text = '';
   double _confidence = 1.0;
   int parking = -1;
 
-
   Future<void> _submit() async {
     String new_name = id;
-    new_name = id.replaceAll(' ','');
+    new_name = id.replaceAll(' ', '');
     print(new_name);
 
-    // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
+    // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
     var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
     var response = await http.get(url);
-    print("0:"+response.body);
+    print("0:" + response.body);
     List<dynamic> latlng = jsonDecode(response.body);
     // 네 주차필요
-    if(parking == 1){
-      url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
-      // url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/hasParkingLot?searching='+new_name);
+    if (parking == 1) {
+      // url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
+      url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/hasParkingLot?searching='+new_name);
 
       var response = await http.get(url);
-      print("parking 1::"+response.body);
+      print("parking 1::" + response.body);
 
-      if(response.body == "true"){ // 그냥 목적지로 안내
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1,new_name, latlng[0].toString(), latlng[1].toString())));
-      } else { // 추천 api 전송
-        url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
+      if (response.body == "true") {
+        // 그냥 목적지로 안내
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SelectScreen(
+                    1, new_name, latlng[0].toString(), latlng[1].toString())));
+      } else {
+        // 추천 api 전송
+        // url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
+        // url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
 
-        print("parking 11::"+response.body);
+        print("parking 11::" + response.body);
         List<dynamic> new_latlng = jsonDecode(response.body); // 목적지 주차장 lat lng
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1,new_name, new_latlng[0].toString(), new_latlng[1].toString())));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SelectScreen(1, new_name,
+                    new_latlng[0].toString(), new_latlng[1].toString())));
       }
-
-    }
-    else{ // 아니오 주차 안함 -> 바로 목적지 경도로 안내
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0,new_name, latlng[0].toString(), latlng[1].toString())));
+    } else {
+      // 아니오 주차 안함 -> 바로 목적지 경도로 안내
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SelectScreen(
+                  0, new_name, latlng[0].toString(), latlng[1].toString())));
     }
   }
 
-  late var locales =  _speech2.locales();
+  late var locales = _speech2.locales();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _speech2 = stt2.SpeechToText();
     locales = _speech2.locales();
-
   }
 
   Future<void> _onBackPressed(BuildContext context) async {
@@ -116,10 +125,8 @@ class _SpeechScreenState extends State<SpeechScreen>{
   }
 
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     return Scaffold(
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -134,102 +141,91 @@ class _SpeechScreenState extends State<SpeechScreen>{
         //  child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         //),
         child: DurationButton(
-          duration: const Duration(seconds: 1),
-          onPressed: () {},
-          backgroundColor: const Color(0xff0f4c81),
-          splashFactory: NoSplash.splashFactory,
-          borderRadius: BorderRadius.circular(100.0),
-          width: 70,
-          height: 70,
-          onComplete: _listen2,
-          child: Icon(Icons.mic, size:30, color: Colors.white,)
-          //child: const Text("주차장 유무"),
-        ),
+            duration: const Duration(seconds: 1),
+            onPressed: () {},
+            backgroundColor: const Color(0xff0f4c81),
+            splashFactory: NoSplash.splashFactory,
+            borderRadius: BorderRadius.circular(100.0),
+            width: 70,
+            height: 70,
+            onComplete: _listen2,
+            child: Icon(
+              Icons.mic,
+              size: 30,
+              color: Colors.white,
+            )
+            //child: const Text("주차장 유무"),
+            ),
       ),
-
       body: WillPopScope(
-          onWillPop: () async{
-            await _onBackPressed(context);
-            return true;
-          },
-          child: Center(
-          child: Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-              height: 300,
-              alignment: Alignment(0.0,0.0),
-              child: Column(
-
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0,0,100),
-                        child: const Text('주차가 필요하신가요?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'EliceDigitalBaeum_TTF',
-                              fontSize: 35.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ))),
-                    Text(_text,
-
-                      style: const TextStyle(
-                        fontFamily: 'EliceDigitalBaeum_TTF',
-                        fontSize: 30.0,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    )
-                  ]
-              )
-          )
-      ),
+        onWillPop: () async {
+          await _onBackPressed(context);
+          return true;
+        },
+        child: Center(
+            child: Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+                height: 300,
+                alignment: Alignment(0.0, 0.0),
+                child: Column(children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+                      child: const Text('주차가 필요하신가요?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'EliceDigitalBaeum_TTF',
+                            fontSize: 35.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ))),
+                  Text(
+                    _text,
+                    style: const TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF',
+                      fontSize: 30.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  )
+                ]))),
       ),
     );
   }
 
-  void _listen2() async{
-
-    if (!_isListening){
+  void _listen2() async {
+    if (!_isListening) {
       bool available = await _speech2.initialize(
-
         onStatus: (val) => print('onStatus44: $val'),
         onError: (val) => print('onError: $val'),
       );
-      if (available){
-        setState(()=> _isListening = true);
+      if (available) {
+        setState(() => _isListening = true);
         _speech2.listen(
             onResult: (val) => setState(() {
-              _text= val.recognizedWords;
-              if (val.hasConfidenceRating && val.confidence > 0){
-                _confidence = val.confidence;
-              }
-            }),
-            localeId: 'ko'
-        );
+                  _text = val.recognizedWords;
+                  if (val.hasConfidenceRating && val.confidence > 0) {
+                    _confidence = val.confidence;
+                  }
+                }),
+            localeId: 'ko');
       }
-      Timer(Duration(seconds: 5), (){
+      Timer(Duration(seconds: 5), () {
         setState(() => _isListening = false);
         _speech2.stop();
         print(_text);
         print(id);
-        if (_text.contains('예') || _text.contains('네')){
+        if (_text.contains('예') || _text.contains('네')) {
           parking = 1;
-        }
-        else{
+        } else {
           parking = 0;
         }
 
-
         _submit();
-
       });
-    }else {
+    } else {
       print('aaaaaa');
       setState(() => _isListening = false);
       _speech2.stop();
     }
   }
-
-
 }
-

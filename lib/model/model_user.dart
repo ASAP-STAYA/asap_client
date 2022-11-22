@@ -4,7 +4,11 @@ class User {
   final String title;
   final String body;
 
-  User({required this.userId,required this.id,required this.title,required this.body});
+  User(
+      {required this.userId,
+      required this.id,
+      required this.title,
+      required this.body});
 
   factory User.fromMap(Map<String, dynamic> json) {
     return User(

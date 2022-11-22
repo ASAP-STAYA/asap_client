@@ -24,8 +24,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _submit() async {
     // var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
-     var url = Uri.parse('http://localhost:8080/api/auth/signin');
-    //var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
+    //  var url = Uri.parse('http://localhost:8080/api/auth/signin');
+    var url = Uri.parse(
+        'http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
 
     final logInBody = {
       'email': _emailController.text,
@@ -65,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
   Future<void> _onBackPressed(BuildContext context) async {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
@@ -81,41 +81,39 @@ class _LoginPageState extends State<LoginPage> {
     final _marginInputForm = width * 0.09;
     return SafeArea(
       child: Scaffold(
-
-          body: WillPopScope(
-            onWillPop: ()async {
-              await _onBackPressed(context);
-              return true;
-            },
-          child: Column(mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+        body: WillPopScope(
+          onWillPop: () async {
+            await _onBackPressed(context);
+            return true;
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
               Container(
-                child: const Text(
-                    '로그인',
+                child: const Text('로그인',
                     style: TextStyle(
                       fontFamily: 'EliceDigitalBaeum_TTF',
                       fontSize: 30.0,
                       color: const Color(0xff0f4c81),
                       fontWeight: FontWeight.w700,
                     ),
-                    textAlign: TextAlign.center
-                ),
+                    textAlign: TextAlign.center),
               ),
-            Container(
-                margin: EdgeInsets.fromLTRB(_marginInputForm, 150, _marginInputForm, 0),
-                child: _inputForm(
-                    "이메일", _emailController, width)),
-            Container(
-                margin: EdgeInsets.fromLTRB(_marginInputForm, 20, _marginInputForm, 0),
-                child: _inputForm("비밀번호", _passwordController, width)),
-            SizedBox(height: 80.0),
-            ElevatedButton(
+              Container(
+                  margin: EdgeInsets.fromLTRB(
+                      _marginInputForm, 150, _marginInputForm, 0),
+                  child: _inputForm("이메일", _emailController, width)),
+              Container(
+                  margin: EdgeInsets.fromLTRB(
+                      _marginInputForm, 20, _marginInputForm, 0),
+                  child: _inputForm("비밀번호", _passwordController, width)),
+              SizedBox(height: 80.0),
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: const Color(0xff0f4c81),
                     padding: EdgeInsets.symmetric(vertical: height * 0.02),
-                    minimumSize: Size(width,50)
-                ),
+                    minimumSize: Size(width, 50)),
                 onPressed: () async {
                   await _submit().then((value) {
                     if (value == true) {
@@ -126,23 +124,22 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   });
                 },
-
                 child: const Text(
                   '로그인',
-                  style: TextStyle(fontSize: 18,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: TextStyle(
+                      fontSize: 18, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ],
           ),
-          ),
-          ),
-        );
-
+        ),
+      ),
+    );
   }
 }
 
-Widget _inputForm(String type, TextEditingController textEditingController,
-    double width) {
+Widget _inputForm(
+    String type, TextEditingController textEditingController, double width) {
   final TextFormField textFormField;
   if ("이메일" == type) {
     textFormField = TextFormField(
@@ -165,7 +162,9 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       Text(
         type,
         style: const TextStyle(
-            fontSize: 18, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
+            fontSize: 18,
+            fontFeatures: [FontFeature.tabularFigures()],
+            fontFamily: 'EliceDigitalBaeum_TTF'),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
       SizedBox(width: width * 0.4, child: textFormField),
