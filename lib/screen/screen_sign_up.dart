@@ -270,7 +270,7 @@ class _SignUpScreen extends State<SignUpScreen> {
               const Text(
                 '선호도를 알려주세요!',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: 'EliceDigitalBaeum_TTF'),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,fontFamily: 'EliceDigitalBaeum_TTF'),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -289,7 +289,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
+                    margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, 0),
                     child: _inputPrefer2(
                         "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
                   ),
@@ -440,14 +440,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(fontSize: 15,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(fontSize: 15,fontFamily: 'EliceDigitalBaeum_TTF'),
 
                 ),
               ),
@@ -455,14 +455,14 @@ class _SignUpScreen extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(fontSize: 15,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(fontSize: 15,fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ]),
@@ -483,7 +483,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 14,fontFamily: 'EliceDigitalBaeum_TTF'),
+          style: const TextStyle(color: Colors.red, fontSize: 13,fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
       ),
     );

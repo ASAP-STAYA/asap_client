@@ -4,14 +4,17 @@ import 'package:asap_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SelectScreen extends StatefulWidget{
   final int parking;
   final String xx;
   final String yy;
-  const SelectScreen(this.parking,this.xx, this.yy);
+  final String name;
+  const SelectScreen(this.parking,this.name,this.xx, this.yy);
   State<StatefulWidget> createState() {
-    return _SelectScreen(this.parking, this.xx, this.yy);
+    return _SelectScreen(this.parking,this.name, this.xx, this.yy);
   }
 }
 
@@ -23,7 +26,8 @@ class _SelectScreen extends State<SelectScreen> {
   int parking;
   String xx = '';
   String yy = '';
-  _SelectScreen(this.parking, this.xx, this.yy);
+  String name = ''; //목적지 이름
+  _SelectScreen(this.parking,this.name, this.xx, this.yy);
 
   // 카카오 내비 앱으로 전환
   void startNavi() async {
@@ -44,6 +48,9 @@ class _SelectScreen extends State<SelectScreen> {
     }
     print('카카오 내비 끝');
   }
+
+
+
 
   // 종료 후 리뷰페이지로 전환
   void ReviewDialog(){
@@ -94,7 +101,7 @@ class _SelectScreen extends State<SelectScreen> {
                                   icon: Icon(Icons.mood,size:18),
                                   label: Text(
                                     '만족해요!',
-                                    style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
+                                    style: TextStyle(fontSize: 15, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                                   ),
                                 ),
                               ),
@@ -111,7 +118,7 @@ class _SelectScreen extends State<SelectScreen> {
                                   icon: Icon(Icons.mood_bad,size:18),
                                   label:Text(
                                     '별로예요',
-                                    style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
+                                    style: TextStyle(fontSize: 15, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                                   ),
                                 ),
                               ),
@@ -167,10 +174,10 @@ class _SelectScreen extends State<SelectScreen> {
                               Navigator.push(context,
                                   MaterialPageRoute(builder: (context) => MyHomePage(title:'')));
                             },
-                            icon: Icon(Icons.directions_car_rounded,size:18),
+                            icon: Icon(Icons.directions_car_rounded,size:13),
                             label: Text(
                               '거리가 멀어요',
-                              style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
+                              style: TextStyle(fontSize: 11, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
                           ),
                         ),
@@ -187,10 +194,10 @@ class _SelectScreen extends State<SelectScreen> {
                               Navigator.pop(context);
                               Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => MyHomePage(title:'')));},
-                            icon: Icon(Icons.attach_money_rounded,size:18),
+                            icon: Icon(Icons.attach_money_rounded,size:13),
                             label:Text(
                               '요금이 비싸요',
-                              style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
+                              style: TextStyle(fontSize: 11, color: Colors.white,fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
                           ),
                         ),
@@ -229,6 +236,23 @@ class _SelectScreen extends State<SelectScreen> {
         .size;
     width = screenSize.width;
     height = screenSize.height;
+    String parking_name = ' '; //주차장 이름
+    String parking_cost = ' '; //1시간 기준 요금
+    String parking_space = ' '; //남은 자리 수
+
+    Future<void> _submit() async {
+
+      var url = Uri.parse("http");
+
+      var response = await http.get(url);
+      print("0:"+response.body);
+      List<dynamic> parking_info = jsonDecode(response.body);
+      parking_name = parking_info[0];
+      parking_cost = parking_info[1];
+      parking_space = parking_info[2];
+
+    }
+
 
     Future<void> _onBackPressed(BuildContext context) async {
       Navigator.push(context,
@@ -275,16 +299,16 @@ class _SelectScreen extends State<SelectScreen> {
                           Padding(
                             padding: EdgeInsets.all(height*0.05),
                           ),
-                          const Text(
-                            '신수동 공영주차장',
+                          Text(
+                            parking_name, //주차장 이름
                             style: TextStyle(fontSize: 30,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
-                          const Text(
-                            '남은 거리 560m',
+                          Text(
+                            parking_cost, //1시간 기준 요금
                             style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
-                          const Text(
-                            '예상 요금 : 2100원',
+                          Text(
+                            parking_space, //남은 자리 수
                             style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
                           ),
                         ]
@@ -297,17 +321,14 @@ class _SelectScreen extends State<SelectScreen> {
                           Padding(
                             padding: EdgeInsets.all(height*0.1),
                           ),
-                          const Text(
-                            '홍원',
+                          Text(
+                            this.name, //목적지 이름
                             style: TextStyle(fontSize: 30,fontFamily: 'EliceDigitalBaeum_TTF', fontWeight: FontWeight.w700),
                           ),
                           Padding(
                             padding: EdgeInsets.all(height*0.02),
                           ),
-                          const Text(
-                            '남은 거리 560m',
-                            style: TextStyle(fontSize:22,fontFamily: 'EliceDigitalBaeum_TTF'),
-                          ),
+
                         ]
                       ],
                     )

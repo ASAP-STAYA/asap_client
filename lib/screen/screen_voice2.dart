@@ -79,10 +79,10 @@ class _SpeechScreenState extends State<SpeechScreen>{
     print("0:"+response.body);
     List<dynamic> latlng = jsonDecode(response.body);
     if(parking == 1){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, latlng[0].toString(), latlng[1].toString())));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, new_name,latlng[0].toString(), latlng[1].toString())));
     }
     else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0, latlng[0].toString(), latlng[1].toString())));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0, new_name,latlng[0].toString(), latlng[1].toString())));
     }
   }
 
@@ -93,6 +93,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
     super.initState();
     _speech2 = stt2.SpeechToText();
     locales = _speech2.locales();
+
   }
 
   Future<void> _onBackPressed(BuildContext context) async {
