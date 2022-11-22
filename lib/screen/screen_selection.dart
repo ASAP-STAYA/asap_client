@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 import 'package:asap_client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'dart:convert';
+
+import '../provider/provider_user.dart';
 
 class SelectScreen extends StatefulWidget {
   final int parking;
@@ -50,7 +54,7 @@ class _SelectScreen extends State<SelectScreen> {
   }
 
   // 종료 후 리뷰페이지로 전환
-  void ReviewDialog() {
+  Future<void> ReviewDialog(token) async {
     double? _ratingValue;
     showDialog(
         context: context,
@@ -118,7 +122,7 @@ class _SelectScreen extends State<SelectScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
                             ),
-                            onPressed: () => {Review_Reason_Dialog()},
+                            onPressed: () => {Review_Reason_Dialog(token)},
                             icon: Icon(Icons.mood_bad, size: 18),
                             label: Text(
                               '별로예요',
@@ -139,7 +143,36 @@ class _SelectScreen extends State<SelectScreen> {
         });
   }
 
-  void Review_Reason_Dialog() {
+  Future<void> saveReviewInServer(String token, double dist, double cost, int discontent) async {
+    Uri preferenceUri =
+    // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
+    // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
+    Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/review/save");
+
+    final body = jsonEncode({
+      "dist": dist,
+      "cost": cost,
+      "discontent": discontent
+    });
+
+    print(token);
+    print(body);
+
+    final response = await http
+        .post(preferenceUri,
+        headers: {
+          HttpHeaders.authorizationHeader: token,
+          'content-type': 'application/json'
+        }, body: body)
+        .catchError((onError) => onError);
+
+    if (response.statusCode != 200) {
+      throw Exception("[ERROR] can't create review of user");
+    }
+  }
+
+  Future<void> Review_Reason_Dialog(token) async {
+
     double? _ratingValue;
     showDialog(
         context: context,
@@ -173,7 +206,8 @@ class _SelectScreen extends State<SelectScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              await saveReviewInServer(token, 0.0, 0.0, 0);
                               Navigator.pop(context);
                               Navigator.push(
                                   context,
@@ -200,7 +234,8 @@ class _SelectScreen extends State<SelectScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              await saveReviewInServer(token, 0.0, 0.0, 1);
                               Navigator.pop(context);
                               Navigator.push(
                                   context,
@@ -229,11 +264,12 @@ class _SelectScreen extends State<SelectScreen> {
   }
 
   void initState() {
+
     Timer(Duration(seconds: 3), () {
       startNavi();
       if (this.parking == 1) {
         Timer(Duration(seconds: 1), () {
-          ReviewDialog();
+          ReviewDialog(context.read<UserProvider>().token);
         });
       } else {
         Navigator.pop(context);
@@ -241,6 +277,7 @@ class _SelectScreen extends State<SelectScreen> {
             MaterialPageRoute(builder: (context) => MyHomePage(title: '')));
       }
     });
+
   }
 
   @override

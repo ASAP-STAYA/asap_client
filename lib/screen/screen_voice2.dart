@@ -7,9 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:highlight_text/highlight_text.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt2;
 import 'package:duration_button/duration_button.dart';
 import 'package:http/http.dart' as http;
+
+import '../provider/provider_user.dart';
 
 class Voice2 extends StatefulWidget {
   String id = '';
@@ -66,6 +69,8 @@ class _SpeechScreenState extends State<SpeechScreen> {
     String new_name = id;
     new_name = id.replaceAll(' ', '');
     print(new_name);
+
+    String token = context.read<UserProvider>().token;
 
     // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching=' + new_name);
     var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name); // 목적지 latlng
