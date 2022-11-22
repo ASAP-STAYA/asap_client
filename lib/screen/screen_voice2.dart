@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'package:asap_client/main.dart';
 
 import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
@@ -69,9 +70,9 @@ class _SpeechScreenState extends State<SpeechScreen>{
     String new_name = id;
     new_name = id.replaceAll(' ','');
     print(new_name);
+
     // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
     var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
-
     var response = await http.get(url);
     print("0:"+response.body);
     List<dynamic> latlng = jsonDecode(response.body);
@@ -84,18 +85,18 @@ class _SpeechScreenState extends State<SpeechScreen>{
       print("parking 1::"+response.body);
 
       if(response.body == "true"){ // 그냥 목적지로 안내
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, latlng[0].toString(), latlng[1].toString())));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1,new_name, latlng[0].toString(), latlng[1].toString())));
       } else { // 추천 api 전송
         url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
 
         print("parking 11::"+response.body);
         List<dynamic> new_latlng = jsonDecode(response.body); // 목적지 주차장 lat lng
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, new_latlng[0].toString(), new_latlng[1].toString())));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1,new_name, new_latlng[0].toString(), new_latlng[1].toString())));
       }
 
     }
     else{ // 아니오 주차 안함 -> 바로 목적지 경도로 안내
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0, latlng[0].toString(), latlng[1].toString())));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0,new_name, latlng[0].toString(), latlng[1].toString())));
     }
   }
 
@@ -106,16 +107,18 @@ class _SpeechScreenState extends State<SpeechScreen>{
     super.initState();
     _speech2 = stt2.SpeechToText();
     locales = _speech2.locales();
+
+  }
+
+  Future<void> _onBackPressed(BuildContext context) async {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
   }
 
   @override
   Widget build(BuildContext context){
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        backgroundColor: const Color(0xff0f4c81),
-      ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -144,7 +147,12 @@ class _SpeechScreenState extends State<SpeechScreen>{
         ),
       ),
 
-      body: Center(
+      body: WillPopScope(
+          onWillPop: () async{
+            await _onBackPressed(context);
+            return true;
+          },
+          child: Center(
           child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               height: 300,
@@ -174,6 +182,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
                   ]
               )
           )
+      ),
       ),
     );
   }
@@ -209,6 +218,8 @@ class _SpeechScreenState extends State<SpeechScreen>{
         else{
           parking = 0;
         }
+
+
         _submit();
 
       });

@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: SplashScreen(
-        seconds: 5,
+        seconds: 2,
         navigateAfterSeconds:MyHomePage(title: 'ASAP'),
         image: new Image.asset('assets/images/image.png',alignment: Alignment.center,),
         photoSize: 200.0,

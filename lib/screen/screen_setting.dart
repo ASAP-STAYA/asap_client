@@ -32,8 +32,8 @@ class _SettingScreen extends State<SettingScreen> {
 
   Future<void> init(String token) async {
     // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
-    // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
-    Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
+     Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
+    //Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
     final response = await http.get(patchUri, headers: {
       HttpHeaders.authorizationHeader: token,
@@ -104,9 +104,20 @@ class _SettingScreen extends State<SettingScreen> {
 
     final marginInputForm = width * 0.09;
 
+    Future<void> _onBackPressed(BuildContext context) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+    }
+
     return SafeArea(
       child: Scaffold(
-        body: Column(
+        body: WillPopScope(
+          onWillPop: ()async{
+            await _onBackPressed(context);
+            return true;
+
+          },
+          child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -169,7 +180,7 @@ class _SettingScreen extends State<SettingScreen> {
             )
           ]
         )
-
+        ),
       ),
     );
   }
