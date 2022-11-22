@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'package:asap_client/main.dart';
 
 import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
@@ -71,8 +72,8 @@ class _SpeechScreenState extends State<SpeechScreen>{
     print('AAA');
     print(id);
     print(new_name);
-    // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
-    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
+     var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
+    //var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
     // print(url);
     var response = await http.get(url);
     print("0:"+response.body);
@@ -94,14 +95,15 @@ class _SpeechScreenState extends State<SpeechScreen>{
     locales = _speech2.locales();
   }
 
+  Future<void> _onBackPressed(BuildContext context) async {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+  }
+
   @override
   Widget build(BuildContext context){
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        backgroundColor: const Color(0xff0f4c81),
-      ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -130,7 +132,12 @@ class _SpeechScreenState extends State<SpeechScreen>{
         ),
       ),
 
-      body: Center(
+      body: WillPopScope(
+          onWillPop: () async{
+            await _onBackPressed(context);
+            return true;
+          },
+          child: Center(
           child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               height: 300,
@@ -160,6 +167,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
                   ]
               )
           )
+      ),
       ),
     );
   }
@@ -195,6 +203,8 @@ class _SpeechScreenState extends State<SpeechScreen>{
         else{
           parking = 0;
         }
+
+
         _submit();
 
       });

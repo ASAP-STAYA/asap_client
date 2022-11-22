@@ -7,6 +7,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:duration_button/duration_button.dart';
+import 'package:asap_client/main.dart';
 
 class Voice1 extends StatefulWidget {
   @override
@@ -68,16 +69,18 @@ class _SpeechScreenState extends State<SpeechScreen>{
     locales = _speech.locales();
   }
 
+  Future<void> _onBackPressed(BuildContext context) async {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+  }
+
   @override
   Widget build(BuildContext context){
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         home: Scaffold(
-          appBar: AppBar(
-            title: const Text(''),
 
-          ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -104,7 +107,12 @@ class _SpeechScreenState extends State<SpeechScreen>{
         ),
       ),
 
-      body: Center(
+      body: WillPopScope(
+          onWillPop: () async{
+            await _onBackPressed(context);
+            return true;
+          },
+          child: Center(
             child: Container(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
               height: 300,
@@ -135,7 +143,7 @@ class _SpeechScreenState extends State<SpeechScreen>{
               )
         )
         ),
-
+      ),
       ),
     );
 

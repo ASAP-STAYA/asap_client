@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_welcome.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui';
-
+import 'package:asap_client/main.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,8 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _submit() async {
     // var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
-    // var url = Uri.parse('http://localhost:8080/api/auth/signin');
-    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
+     var url = Uri.parse('http://localhost:8080/api/auth/signin');
+    //var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
 
     final logInBody = {
       'email': _emailController.text,
@@ -62,6 +62,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+
+  Future<void> _onBackPressed(BuildContext context) async {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -72,8 +78,13 @@ class _LoginPageState extends State<LoginPage> {
     final _marginInputForm = width * 0.09;
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
+
+          body: WillPopScope(
+            onWillPop: ()async {
+              await _onBackPressed(context);
+              return true;
+            },
+          child: Column(mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
               Container(
@@ -112,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   });
                 },
+
                 child: const Text(
                   '로그인',
                   style: TextStyle(fontSize: 18,fontFamily: 'EliceDigitalBaeum_TTF'),
@@ -119,8 +131,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-        ),
-      );
+          ),
+          ),
+        );
+
   }
 }
 

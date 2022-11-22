@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:asap_client/screen/screen_login.dart';
 
 import '../provider/provider_user.dart';
+import 'package:asap_client/main.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -107,8 +108,8 @@ class _SignUpScreen extends State<SignUpScreen> {
     Future<String> saveUserInServer() async {
       late String userId;
       // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
-      // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
-      Uri userUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
+       Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
+      //Uri userUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
@@ -219,10 +220,21 @@ class _SignUpScreen extends State<SignUpScreen> {
     }
     final _marginInputForm = width * 0.08;
 
+    Future<void> _onBackPressed(BuildContext context) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+    }
+
+
     return SafeArea(
       child: Scaffold(
 
-        body: Container(
+        body: WillPopScope(
+          onWillPop: () async {
+            await _onBackPressed(context);
+            return true;
+          },
+        child: Container(
           child: ListView(
             children: <Widget>[
               const Text(
@@ -305,6 +317,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                     }
                   }
                 },
+
                 child: const Text(
                   '가입하기',
                   style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),
@@ -314,6 +327,7 @@ class _SignUpScreen extends State<SignUpScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

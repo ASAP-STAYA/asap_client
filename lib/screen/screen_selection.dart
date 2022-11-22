@@ -230,12 +230,21 @@ class _SelectScreen extends State<SelectScreen> {
     width = screenSize.width;
     height = screenSize.height;
 
+    Future<void> _onBackPressed(BuildContext context) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+    }
 
 
     return SafeArea(
         child: Scaffold(
 
-            body: Container(
+            body: WillPopScope(
+                onWillPop: () async{
+                  await _onBackPressed(context);
+                  return true;
+                },
+            child: Container(
                 child: Center(
 
                     child: Column(
@@ -304,6 +313,7 @@ class _SelectScreen extends State<SelectScreen> {
                     )
                 )
             )
+        )
         )
     );
   }
