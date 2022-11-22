@@ -78,6 +78,10 @@ class _SpeechScreenState extends State<SpeechScreen> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title: Text(''),
+          backgroundColor: const Color(0xff0f4c81),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
           animate: _isListening,

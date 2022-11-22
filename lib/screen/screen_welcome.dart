@@ -22,7 +22,11 @@ class _Welcome extends State<Welcome> {
     return MaterialApp(
       title: 'Welcome to Flutter',
       home: Scaffold(
-        body: Center(
+        appBar: AppBar(
+          title: Text(''),
+          backgroundColor: const Color(0xff0f4c81),
+        ),
+        body: const Center(
           child: Text('반가워요!',
               style: TextStyle(
                   fontSize: 25,

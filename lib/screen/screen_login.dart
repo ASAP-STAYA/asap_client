@@ -81,6 +81,10 @@ class _LoginPageState extends State<LoginPage> {
     final _marginInputForm = width * 0.09;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(''),
+          backgroundColor: const Color(0xff0f4c81),
+        ),
         body: WillPopScope(
           onWillPop: () async {
             await _onBackPressed(context);

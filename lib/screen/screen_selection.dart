@@ -270,6 +270,10 @@ class _SelectScreen extends State<SelectScreen> {
 
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: Text(''),
+              backgroundColor: const Color(0xff0f4c81),
+            ),
             body: WillPopScope(
                 onWillPop: () async {
                   await _onBackPressed(context);
