@@ -28,6 +28,7 @@ class _SelectScreen extends State<SelectScreen> {
   // 카카오 내비 앱으로 전환
   void startNavi() async {
     // 카카오 API 연동
+
     print(xx);
     print(yy);
     bool result = await NaviApi.instance.isKakaoNaviInstalled();

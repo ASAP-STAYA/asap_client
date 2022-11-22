@@ -68,19 +68,33 @@ class _SpeechScreenState extends State<SpeechScreen>{
   Future<void> _submit() async {
     String new_name = id;
     new_name = id.replaceAll(' ','');
-    print('AAA');
-    print(id);
     print(new_name);
     // var url = Uri.parse('http://localhost:8080/api/parking/latlng?searching='+new_name);
     var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/latlng?searching='+new_name);
-    // print(url);
+
     var response = await http.get(url);
     print("0:"+response.body);
     List<dynamic> latlng = jsonDecode(response.body);
+    // 네 주차필요
     if(parking == 1){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, latlng[0].toString(), latlng[1].toString())));
+      url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
+      // url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/hasParkingLot?searching='+new_name);
+
+      var response = await http.get(url);
+      print("parking 1::"+response.body);
+
+      if(response.body == "true"){ // 그냥 목적지로 안내
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, latlng[0].toString(), latlng[1].toString())));
+      } else { // 추천 api 전송
+        url = Uri.parse('http://localhost:8080/api/parking/hasParkingLot?searching='+new_name);
+
+        print("parking 11::"+response.body);
+        List<dynamic> new_latlng = jsonDecode(response.body); // 목적지 주차장 lat lng
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(1, new_latlng[0].toString(), new_latlng[1].toString())));
+      }
+
     }
-    else{
+    else{ // 아니오 주차 안함 -> 바로 목적지 경도로 안내
       Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(0, latlng[0].toString(), latlng[1].toString())));
     }
   }
