@@ -9,6 +9,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:duration_button/duration_button.dart';
 import 'package:asap_client/main.dart';
 
+/*
 class Voice1 extends StatefulWidget {
   @override
   _Voice1 createState() => _Voice1();
@@ -35,7 +36,7 @@ class _Voice1 extends State<Voice1> {
     );
   }
 }
-
+*/
 class ReturnValue {
   String? result = '';
   ReturnValue({this.result});
@@ -68,19 +69,26 @@ class _SpeechScreenState extends State<SpeechScreen> {
     locales = _speech.locales();
   }
 
+  Timer _timer = Timer(Duration(),(){});
+  Timer _timer2 = Timer(Duration(),(){});
+
   Future<void> _onBackPressed(BuildContext context) async {
+
+    _timer2.cancel();
+    _timer.cancel();
+    setState(() => _isListening = false);
+    _speech.stop();
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(''),
           backgroundColor: const Color(0xff0f4c81),
+          automaticallyImplyLeading: true,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: AvatarGlow(
@@ -142,8 +150,8 @@ class _SpeechScreenState extends State<SpeechScreen> {
                     )
                   ]))),
         ),
-      ),
-    );
+      );
+
   }
 
   void _listen() async {
@@ -165,13 +173,13 @@ class _SpeechScreenState extends State<SpeechScreen> {
                 }),
             localeId: 'ko');
       }
-      Timer(const Duration(seconds: 5), () {
+      _timer = Timer(const Duration(seconds: 5), () {
         setState(() => _isListening = false);
         _speech.stop();
         print(_text);
-        Timer(const Duration(seconds: 3), () {
+        _timer2 = Timer(const Duration(seconds: 3), () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Voice2(_text)));
+              context, MaterialPageRoute(builder: (context) => SpeechScreen2(_text)));
         });
       });
     } else {

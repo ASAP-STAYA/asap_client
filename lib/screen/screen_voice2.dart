@@ -11,6 +11,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt2;
 import 'package:duration_button/duration_button.dart';
 import 'package:http/http.dart' as http;
 
+/*
 class Voice2 extends StatefulWidget {
   String id = '';
   Voice2(this.id);
@@ -44,17 +45,18 @@ class _Voice2 extends State<Voice2> {
     );
   }
 }
+*/
 
-class SpeechScreen extends StatefulWidget {
+class SpeechScreen2 extends StatefulWidget {
   String id = '';
-  SpeechScreen(this.id);
+  SpeechScreen2(this.id);
   @override
-  _SpeechScreenState createState() => _SpeechScreenState(id);
+  _SpeechScreenState2 createState() => _SpeechScreenState2(id);
 }
 
-class _SpeechScreenState extends State<SpeechScreen> {
+class _SpeechScreenState2 extends State<SpeechScreen2> {
   String id = '';
-  _SpeechScreenState(this.id);
+  _SpeechScreenState2(this.id);
 
   stt2.SpeechToText _speech2 = stt2.SpeechToText();
   bool _isListening = false;
@@ -119,7 +121,12 @@ class _SpeechScreenState extends State<SpeechScreen> {
     locales = _speech2.locales();
   }
 
+  Timer _timer = Timer(Duration(),(){});
+
   Future<void> _onBackPressed(BuildContext context) async {
+    _timer.cancel();
+    setState(() => _isListening = false);
+    _speech2.stop();
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
   }
@@ -213,7 +220,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                 }),
             localeId: 'ko');
       }
-      Timer(Duration(seconds: 5), () {
+      _timer= Timer(Duration(seconds: 5), () {
         setState(() => _isListening = false);
         _speech2.stop();
         print(_text);
@@ -225,6 +232,11 @@ class _SpeechScreenState extends State<SpeechScreen> {
         }
 
         _submit();
+        /*Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SelectScreen(1, 'a',
+                    '22', 'aa')));*/
       });
     } else {
       print('aaaaaa');
