@@ -1,3 +1,4 @@
+import 'dart:_http';
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
@@ -87,7 +88,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
       print("parking 1::" + response.body);
 
       if (response.body == "true") {
-        // 그냥 목적지로 안내
+        // 주차가 필요하지만 목적지에 주차장이 있을 경우 그냥 목적지로 안내
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -96,9 +97,16 @@ class _SpeechScreenState extends State<SpeechScreen> {
       } else {
         // 추천 api 전송
         // url = Uri.parse('http://localhost:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
-        // url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
 
+
+        print("parking 11 token::" + token);
+        url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]}');
+        var response = await http.get(url, headers: {
+          HttpHeaders.authorizationHeader: token,
+          'content-type': 'application/json'
+        });
         print("parking 11::" + response.body);
+
         final body = jsonDecode(response.body); // 목적지 주차장 lat lng
         print(body);
         Navigator.push(
