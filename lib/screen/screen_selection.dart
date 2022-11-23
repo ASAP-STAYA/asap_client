@@ -103,11 +103,11 @@ class _SelectScreen extends State<SelectScreen> {
                                       builder: (context) =>
                                           MyHomePage(title: '')));
                             },
-                            icon: Icon(Icons.mood, size: 18),
+                            icon: Icon(Icons.mood, size: 13),
                             label: Text(
                               '만족해요!',
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   color: Colors.white,
                                   fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
@@ -123,11 +123,12 @@ class _SelectScreen extends State<SelectScreen> {
                               primary: const Color(0xff0f4c81),
                             ),
                             onPressed: () => {Review_Reason_Dialog(token)},
-                            icon: Icon(Icons.mood_bad, size: 18),
+                            icon: Icon(Icons.mood_bad, size: 13),
+
                             label: Text(
                               '별로예요',
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 13,
                                   color: Colors.white,
                                   fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
@@ -219,7 +220,7 @@ class _SelectScreen extends State<SelectScreen> {
                             label: Text(
                               '거리가 멀어요',
                               style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: 8,
                                   color: Colors.white,
                                   fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
@@ -247,7 +248,7 @@ class _SelectScreen extends State<SelectScreen> {
                             label: Text(
                               '요금이 비싸요',
                               style: TextStyle(
-                                  fontSize: 11,
+                                  fontSize: 8,
                                   color: Colors.white,
                                   fontFamily: 'EliceDigitalBaeum_TTF'),
                             ),
@@ -263,13 +264,15 @@ class _SelectScreen extends State<SelectScreen> {
         });
   }
 
+  Timer _timer = Timer(Duration(),(){});
+  Timer _timer2 = Timer(Duration(),(){});
   void initState() {
-
-    Timer(Duration(seconds: 3), () {
+    _timer2 = Timer(Duration(seconds: 3), () {
       startNavi();
       if (this.parking == 1) {
-        Timer(Duration(seconds: 1), () {
+        _timer = Timer(Duration(seconds: 1), () {
           ReviewDialog(context.read<UserProvider>().token);
+
         });
       } else {
         Navigator.pop(context);
@@ -301,6 +304,8 @@ class _SelectScreen extends State<SelectScreen> {
     }
 
     Future<void> _onBackPressed(BuildContext context) async {
+      _timer.cancel();
+      _timer2.cancel();
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
     }
