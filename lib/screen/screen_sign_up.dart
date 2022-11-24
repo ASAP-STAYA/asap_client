@@ -10,6 +10,9 @@ import '../provider/provider_user.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../util/util_cost.dart';
+import '../util/util_distance.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -38,30 +41,6 @@ class _SignUpScreen extends State<SignUpScreen> {
   late List<bool> isSelectedDistance = [false, false, false, true];
   late List<bool> isSelectedPrice = [false, false, false, true];
 
-  double getDistPreferInt() {
-    if (isSelectedDistance[0]) {
-      return 0.5;
-    } else if (isSelectedDistance[1]) {
-      return 1.0;
-    } else if (isSelectedDistance[2]) {
-      return 1.5;
-    } else {
-      return 0.0;
-    }
-  }
-
-  double getCostPreferInt() {
-    if (isSelectedPrice[0]) {
-      return 500;
-    } else if (isSelectedPrice[1]) {
-      return 1000;
-    } else if (isSelectedPrice[2]) {
-      return 1500;
-    } else {
-      return 0.0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -74,8 +53,6 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.email = _emailController.text;
       _userProvider.name = _nameController.text;
       _userProvider.password = _passwordController.text;
-      _userProvider.distPrefer = getDistPreferInt();
-      _userProvider.costPrefer = getCostPreferInt();
       _userProvider.canMechanical = (isSelectedMechanical[0] == false);
       _userProvider.canNarrow = (isSelectedSmall[0] == false);
     }
@@ -84,12 +61,13 @@ class _SignUpScreen extends State<SignUpScreen> {
       Uri preferenceUri =
           // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
           // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
-          Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/preference/");
+          Uri.parse(
+              "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/preference/");
 
       final body = jsonEncode({
         "user_id": userId,
-        "dist_prefer": _userProvider.distPrefer,
-        "cost_prefer": _userProvider.costPrefer,
+        "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
+        "cost_prefer": getCostFromSelectedList(isSelectedPrice),
         "can_mechanical": _userProvider.canMechanical,
         "can_narrow": _userProvider.canNarrow,
       });
@@ -108,7 +86,8 @@ class _SignUpScreen extends State<SignUpScreen> {
       late String userId;
       // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
       // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
-      Uri userUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
+      Uri userUri = Uri.parse(
+          "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
@@ -188,7 +167,6 @@ class _SignUpScreen extends State<SignUpScreen> {
                     primary: const Color(0xff0f4c81),
                   ),
                   onPressed: () => Navigator.of(context).pop(),
-
                   child: const Text("확인"))
             ],
           );
@@ -217,40 +195,42 @@ class _SignUpScreen extends State<SignUpScreen> {
         },
       );
     }
+
     final _marginInputForm = width * 0.08;
 
     return SafeArea(
       child: Scaffold(
-
         body: Container(
           child: ListView(
             children: <Widget>[
-              const Text(
-                  '회원가입',
+              const Text('회원가입',
                   style: TextStyle(
                     fontFamily: 'EliceDigitalBaeum_TTF',
                     fontSize: 30.0,
-                    color: const Color(0xff0f4c81),
+                    color: Color(0xff0f4c81),
                     fontWeight: FontWeight.w700,
                   ),
-                  textAlign: TextAlign.center
-              ),
+                  textAlign: TextAlign.center),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.02, _marginInputForm, 0),
+                      margin: EdgeInsets.fromLTRB(
+                          _marginInputForm, height * 0.02, _marginInputForm, 0),
                       child: _inputForm("이름", _nameController, '', width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
+                      margin: EdgeInsets.fromLTRB(
+                          _marginInputForm, 0, _marginInputForm, 0),
                       child: _inputForm(
                           "이메일", _emailController, _emailErrorMsg, width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
+                      margin: EdgeInsets.fromLTRB(
+                          _marginInputForm, 0, _marginInputForm, 0),
                       child: _inputForm("비밀번호", _passwordController,
                           _passwordErrorMsg, width)),
                   Container(
-                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, height * 0.055),
+                      margin: EdgeInsets.fromLTRB(_marginInputForm, 0,
+                          _marginInputForm, height * 0.055),
                       child: _inputForm("비밀번호 확인", _passwordCheckController,
                           _passwordCheckErrorMsg, width)),
                 ],
@@ -258,17 +238,22 @@ class _SignUpScreen extends State<SignUpScreen> {
               const Text(
                 '선호도를 알려주세요!',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,fontFamily: 'EliceDigitalBaeum_TTF'),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'EliceDigitalBaeum_TTF'),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.03, _marginInputForm, height * 0.015),
+                    margin: EdgeInsets.fromLTRB(_marginInputForm, height * 0.03,
+                        _marginInputForm, height * 0.015),
                     child: _inputPrefer1("기계식 주차장"),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(_marginInputForm, 0, _marginInputForm, 0),
+                    margin: EdgeInsets.fromLTRB(
+                        _marginInputForm, 0, _marginInputForm, 0),
                     child: _inputPrefer1("좁은 주차장"),
                   )
                 ],
@@ -279,12 +264,21 @@ class _SignUpScreen extends State<SignUpScreen> {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, height * 0.03, 0, 0),
                     child: _inputPrefer2(
-                        "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                        "거리",
+                        distanceToString(distances[0]),
+                        distanceToString(distances[1]),
+                        distanceToString(distances[2]),
+                        distanceToString(distances[3])),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-                    child:
-                    _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                    margin:
+                        EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
+                    child: _inputPrefer2(
+                        "요금",
+                        costToString(costs[0]),
+                        costToString(costs[1]),
+                        costToString(costs[2]),
+                        costToString(costs[3])),
                   ),
                 ],
               ),
@@ -292,7 +286,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: height * 0.015),
                   primary: const Color(0xff0f4c81),
-                  minimumSize: Size(150,50),
+                  minimumSize: const Size(150, 50),
                 ),
                 onPressed: () async {
                   var isValidated = await _checkValidation();
@@ -307,9 +301,9 @@ class _SignUpScreen extends State<SignUpScreen> {
                 },
                 child: const Text(
                   '가입하기',
-                  style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),
+                  style: TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF', fontSize: 18),
                 ),
-
               ),
             ],
           ),
@@ -335,7 +329,9 @@ class _SignUpScreen extends State<SignUpScreen> {
         Text(
           type,
           style: const TextStyle(
-              fontSize: 18, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
+              fontSize: 18,
+              fontFeatures: [FontFeature.tabularFigures()],
+              fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
         ToggleButtons(
             selectedColor: Colors.white,
@@ -359,14 +355,16 @@ class _SignUpScreen extends State<SignUpScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '안 가!',
-                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '상관 없어',
-                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ])
@@ -392,8 +390,8 @@ class _SignUpScreen extends State<SignUpScreen> {
           padding: EdgeInsets.only(bottom: height * 0.015),
           child: Text(
             type,
-            style: const TextStyle(fontSize: 18, fontFamily: 'EliceDigitalBaeum_TTF'),
-
+            style: const TextStyle(
+                fontSize: 18, fontFamily: 'EliceDigitalBaeum_TTF'),
           ),
         ),
         ToggleButtons(
@@ -402,7 +400,7 @@ class _SignUpScreen extends State<SignUpScreen> {
             isSelected: isSelected,
             onPressed: (int index) {
               setState(
-                    () {
+                () {
                   if (index == 0) {
                     isSelected[0] = true;
                     isSelected[1] = isSelected[2] = isSelected[3] = false;
@@ -420,35 +418,39 @@ class _SignUpScreen extends State<SignUpScreen> {
               );
             },
             borderRadius: BorderRadius.circular(9),
-            constraints: BoxConstraints(minHeight: height * 0.045, minWidth: width * 0.2),
+            constraints: BoxConstraints(
+                minHeight: height * 0.045, minWidth: width * 0.2),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
-
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ]),
@@ -456,8 +458,6 @@ class _SignUpScreen extends State<SignUpScreen> {
     );
   }
 }
-
-
 
 Widget _inputForm(String type, TextEditingController textEditingController,
     String errorMsg, double width) {
@@ -469,7 +469,10 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 14,fontFamily: 'EliceDigitalBaeum_TTF'),
+          style: const TextStyle(
+              color: Colors.red,
+              fontSize: 14,
+              fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
       ),
     );
@@ -486,7 +489,10 @@ Widget _inputForm(String type, TextEditingController textEditingController,
       decoration: InputDecoration(
         label: Text(
           errorMsg,
-          style: const TextStyle(color: Colors.red, fontSize: 13,fontFamily: 'EliceDigitalBaeum_TTF'),
+          style: const TextStyle(
+              color: Colors.red,
+              fontSize: 13,
+              fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
       ),
     );
@@ -503,8 +509,7 @@ Widget _inputForm(String type, TextEditingController textEditingController,
         style: const TextStyle(
             fontSize: 18,
             fontFeatures: [FontFeature.tabularFigures()],
-            fontFamily: 'EliceDigitalBaeum_TTF'
-        ),
+            fontFamily: 'EliceDigitalBaeum_TTF'),
       ),
       Padding(padding: EdgeInsets.only(left: width * 0.06)),
       SizedBox(width: width * 0.5, child: textFormField),
