@@ -33,7 +33,8 @@ class _SettingScreen extends State<SettingScreen> {
   Future<void> init(String token) async {
     // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
     // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
-    Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
+    Uri patchUri = Uri.parse(
+        "http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
     final response = await http.get(patchUri, headers: {
       HttpHeaders.authorizationHeader: token,
@@ -82,7 +83,8 @@ class _SettingScreen extends State<SettingScreen> {
     Future<bool> _submit() async {
       // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
       // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
-      Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
+      Uri patchUri = Uri.parse(
+          "http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
       final body = jsonEncode({
         "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
@@ -106,28 +108,26 @@ class _SettingScreen extends State<SettingScreen> {
 
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          body: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
             Container(
-
-              child: const Text(
-                  '설정',
+              child: const Text('설정',
                   style: TextStyle(
                     fontFamily: 'EliceDigitalBaeum_TTF',
                     fontSize: 30.0,
                     color: const Color(0xff0f4c81),
                     fontWeight: FontWeight.w700,
                   ),
-                  textAlign: TextAlign.center
-              ),
+                  textAlign: TextAlign.center),
             ),
             Container(
               child: Text(
                 _userProvider.name,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             Container(
@@ -136,41 +136,45 @@ class _SettingScreen extends State<SettingScreen> {
               child: _inputPrefer1("기계식 주차장"),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(
-                  marginInputForm, 0, marginInputForm, 0),
+              margin:
+                  EdgeInsets.fromLTRB(marginInputForm, 0, marginInputForm, 0),
               child: _inputPrefer1("좁은 주차장"),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(0, height * 0.05, 0, 0),
               child: _inputPrefer2(
-                  "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                  "거리",
+                  distanceToString(distances[0]),
+                  distanceToString(distances[1]),
+                  distanceToString(distances[2]),
+                  distanceToString(distances[3])),
             ),
             Container(
-              margin:
-              EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
-              child:
-              _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+              margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
+              child: _inputPrefer2(
+                  "요금",
+                  costToString(costs[0]),
+                  costToString(costs[1]),
+                  costToString(costs[2]),
+                  costToString(costs[3])),
             ),
             Container(
-
-              child:
-              ElevatedButton(
+              child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: const Color(0xff0f4c81),
-                    padding: EdgeInsets.symmetric(vertical: height * 0.01),
-                    minimumSize: Size(width,50),),
+                  primary: const Color(0xff0f4c81),
+                  padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                  minimumSize: Size(width, 50),
+                ),
                 onPressed: () => _submit(),
                 //onPressed: () => {},
                 child: const Text(
                   '확인',
-                  style: TextStyle(fontFamily: 'EliceDigitalBaeum_TTF',fontSize: 18),
+                  style: TextStyle(
+                      fontFamily: 'EliceDigitalBaeum_TTF', fontSize: 18),
                 ),
               ),
             )
-          ]
-        )
-
-      ),
+          ])),
     );
   }
 
@@ -191,7 +195,9 @@ class _SettingScreen extends State<SettingScreen> {
         Text(
           type,
           style: const TextStyle(
-              fontSize: 22, fontFeatures: [FontFeature.tabularFigures()],fontFamily: 'EliceDigitalBaeum_TTF'),
+              fontSize: 22,
+              fontFeatures: [FontFeature.tabularFigures()],
+              fontFamily: 'EliceDigitalBaeum_TTF'),
         ),
         ToggleButtons(
             selectedColor: Colors.white,
@@ -215,14 +221,16 @@ class _SettingScreen extends State<SettingScreen> {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '안 가!',
-                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * 0.03),
                 child: const Text(
                   '상관 없어',
-                  style: TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ])
@@ -248,7 +256,8 @@ class _SettingScreen extends State<SettingScreen> {
           padding: EdgeInsets.only(bottom: height * 0.015),
           child: Text(
             type,
-            style: const TextStyle(fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+            style: const TextStyle(
+                fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
           ),
         ),
         ToggleButtons(
@@ -275,35 +284,39 @@ class _SettingScreen extends State<SettingScreen> {
               );
             },
             borderRadius: BorderRadius.circular(9),
-            constraints: BoxConstraints(
-                minHeight: height * 0.05, minWidth: width * 0.2),
+            constraints:
+                BoxConstraints(minHeight: height * 0.05, minWidth: width * 0.2),
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg1,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg2,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg3,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: height * 0.015),
                 child: Text(
                   arg4,
-                  style: const TextStyle(fontSize: 16,fontFamily: 'EliceDigitalBaeum_TTF'),
+                  style: const TextStyle(
+                      fontSize: 16, fontFamily: 'EliceDigitalBaeum_TTF'),
                 ),
               ),
             ]),
