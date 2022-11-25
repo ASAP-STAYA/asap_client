@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:asap_client/screen/screen_setting.dart';
 import 'package:asap_client/screen/screen_voice1.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:asap_client/provider/provider_user.dart';
 
 import 'package:asap_client/screen/screen_sign_up.dart';
 import 'package:asap_client/screen/screen_login.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
@@ -73,6 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  Future<void> _onBackPressed(BuildContext context) async {
+    Navigator.pop(context, true);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -89,8 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xff0f4c81),
       ),
       body:WillPopScope(
-        onWillPop: () {
-          return Future(() => false);
+        onWillPop: () async {
+          //_onBackPressed(context);
+          SystemNavigator.pop();
+          //exit(0);
+          return false;
         },
         child: Center(
         child: Column(
