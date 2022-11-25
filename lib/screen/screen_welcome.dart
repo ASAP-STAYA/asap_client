@@ -29,14 +29,7 @@ class _Welcome extends State<Welcome> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Colors.white, //change your color here
-          ),
-          title: Text(''),
-          backgroundColor: const Color(0xff0f4c81),
 
-        ),
         body: WillPopScope(
           onWillPop: () async {
           await _onBackPressed(context);

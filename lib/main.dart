@@ -91,11 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
         textStyle: const TextStyle(fontSize: 40), minimumSize: Size(200, 100));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        automaticallyImplyLeading: true,
-        backgroundColor: const Color(0xff0f4c81),
-      ),
+      
       body:WillPopScope(
         onWillPop: () async {
           //_onBackPressed(context);
