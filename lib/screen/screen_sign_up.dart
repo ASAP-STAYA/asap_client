@@ -11,6 +11,9 @@ import 'package:asap_client/main.dart';
 
 import 'package:http/http.dart' as http;
 
+import '../util/util_cost.dart';
+import '../util/util_distance.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -39,30 +42,6 @@ class _SignUpScreen extends State<SignUpScreen> {
   late List<bool> isSelectedDistance = [false, false, false, true];
   late List<bool> isSelectedPrice = [false, false, false, true];
 
-  double getDistPreferInt() {
-    if (isSelectedDistance[0]) {
-      return 0.5;
-    } else if (isSelectedDistance[1]) {
-      return 1.0;
-    } else if (isSelectedDistance[2]) {
-      return 1.5;
-    } else {
-      return 0.0;
-    }
-  }
-
-  double getCostPreferInt() {
-    if (isSelectedPrice[0]) {
-      return 500;
-    } else if (isSelectedPrice[1]) {
-      return 1000;
-    } else if (isSelectedPrice[2]) {
-      return 1500;
-    } else {
-      return 0.0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -75,47 +54,24 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.email = _emailController.text;
       _userProvider.name = _nameController.text;
       _userProvider.password = _passwordController.text;
-      _userProvider.distPrefer = getDistPreferInt();
-      _userProvider.costPrefer = getCostPreferInt();
       _userProvider.canMechanical = (isSelectedMechanical[0] == false);
       _userProvider.canNarrow = (isSelectedSmall[0] == false);
-    }
-
-    void savePreferenceInServer(String userId) async {
-      Uri preferenceUri =
-          // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
-          // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
-          Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/preference/");
-
-      final body = jsonEncode({
-        "user_id": userId,
-        "dist_prefer": _userProvider.distPrefer,
-        "cost_prefer": _userProvider.costPrefer,
-        "can_mechanical": _userProvider.canMechanical,
-        "can_narrow": _userProvider.canNarrow,
-      });
-
-      final response = await http
-          .post(preferenceUri,
-              headers: {'content-type': 'application/json'}, body: body)
-          .catchError((onError) => onError);
-
-      if (response.statusCode != 200) {
-        throw Exception("[ERROR] can't create preference of user $userId");
-      }
     }
 
     Future<String> saveUserInServer() async {
       late String userId;
       // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
-      //  Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
-      Uri userUri = Uri.parse(
-          "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
+      // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
+      Uri userUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
         "email": _userProvider.email,
-        "password": _userProvider.password
+        "password": _userProvider.password,
+        "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
+        "cost_prefer": getCostFromSelectedList(isSelectedPrice),
+        "can_mechanical": _userProvider.canMechanical,
+        "can_narrow": _userProvider.canNarrow
       });
 
       final response = await http
@@ -123,10 +79,8 @@ class _SignUpScreen extends State<SignUpScreen> {
               headers: {'content-type': 'application/json'}, body: body)
           .catchError((onError) => onError);
 
-      if (response.statusCode == 200 && response.body != "[ERROR] same user") {
-        userId = response.body;
-        savePreferenceInServer(response.body);
-        return userId;
+      if (response.statusCode == 200 && response.body == "sign up success") {
+        return "success";
       } else {
         return "[ERROR] same user";
       }
@@ -228,7 +182,6 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
-
         body: WillPopScope(
           onWillPop: () async {
             await _onBackPressed(context);
@@ -241,7 +194,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                     style: TextStyle(
                       fontFamily: 'EliceDigitalBaeum_TTF',
                       fontSize: 30.0,
-                      color: const Color(0xff0f4c81),
+                      color: Color(0xff0f4c81),
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center),
@@ -249,8 +202,8 @@ class _SignUpScreen extends State<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        margin: EdgeInsets.fromLTRB(_marginInputForm,
-                            height * 0.02, _marginInputForm, 0),
+                        margin: EdgeInsets.fromLTRB(
+                            _marginInputForm, height * 0.02, _marginInputForm, 0),
                         child: _inputForm("이름", _nameController, '', width)),
                     Container(
                         margin: EdgeInsets.fromLTRB(
@@ -298,13 +251,20 @@ class _SignUpScreen extends State<SignUpScreen> {
                     Container(
                       margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, 0),
                       child: _inputPrefer2(
-                          "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                          "거리",
+                          distanceToString(distances[0]),
+                          distanceToString(distances[1]),
+                          distanceToString(distances[2]),
+                          distanceToString(distances[3])),
                     ),
                     Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0, height * 0.02, 0, height * 0.05),
+                      margin: EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
                       child: _inputPrefer2(
-                          "요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                          "요금",
+                          costToString(costs[0]),
+                          costToString(costs[1]),
+                          costToString(costs[2]),
+                          costToString(costs[3])),
                     ),
                   ],
                 ),
@@ -312,7 +272,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: height * 0.015),
                     primary: const Color(0xff0f4c81),
-                    minimumSize: Size(150, 50),
+                    minimumSize: const Size(150, 50),
                   ),
                   onPressed: () async {
                     var isValidated = await _checkValidation();

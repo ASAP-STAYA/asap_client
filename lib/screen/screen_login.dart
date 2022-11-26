@@ -24,9 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<bool> _submit() async {
     // var url = Uri.parse('http://10.0.2.2:8080/api/auth/signin/');
-    //  var url = Uri.parse('http://localhost:8080/api/auth/signin');
-    var url = Uri.parse(
-        'http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
+    // var url = Uri.parse('http://localhost:8080/api/auth/signin');
+    var url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signin');
 
     final logInBody = {
       'email': _emailController.text,
@@ -81,7 +80,6 @@ class _LoginPageState extends State<LoginPage> {
     final _marginInputForm = width * 0.09;
     return SafeArea(
       child: Scaffold(
-
         body: WillPopScope(
           onWillPop: () async {
             await _onBackPressed(context);
@@ -96,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                       fontFamily: 'EliceDigitalBaeum_TTF',
                       fontSize: 30.0,
-                      color: const Color(0xff0f4c81),
+                      color: Color(0xff0f4c81),
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.center),
@@ -109,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                   margin: EdgeInsets.fromLTRB(
                       _marginInputForm, 20, _marginInputForm, 0),
                   child: _inputForm("비밀번호", _passwordController, width)),
-              SizedBox(height: 80.0),
+              const SizedBox(height: 80.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: const Color(0xff0f4c81),
@@ -124,9 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                       alertLogInFail();
                     }
                   });
-
                 },
-
                 child: const Text(
                   '로그인',
                   style: TextStyle(

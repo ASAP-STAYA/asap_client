@@ -32,7 +32,7 @@ class _SettingScreen extends State<SettingScreen> {
 
   Future<void> init(String token) async {
     // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
-    //  Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
+    // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
     Uri patchUri = Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/preference/");
 
     final response = await http.get(patchUri, headers: {
@@ -110,9 +110,7 @@ class _SettingScreen extends State<SettingScreen> {
     }
 
     return SafeArea(
-
       child: Scaffold(
-
         body: WillPopScope(
             onWillPop: () async {
               await _onBackPressed(context);
@@ -127,7 +125,7 @@ class _SettingScreen extends State<SettingScreen> {
                         style: TextStyle(
                           fontFamily: 'EliceDigitalBaeum_TTF',
                           fontSize: 30.0,
-                          color: const Color(0xff0f4c81),
+                          color: Color(0xff0f4c81),
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center),
@@ -153,13 +151,21 @@ class _SettingScreen extends State<SettingScreen> {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, height * 0.05, 0, 0),
                     child: _inputPrefer2(
-                        "거리", "~0.5km", "~1km", "~1.5km", "상관 없어"),
+                        "거리",
+                        distanceToString(distances[0]),
+                        distanceToString(distances[1]),
+                        distanceToString(distances[2]),
+                        distanceToString(distances[3])),
                   ),
                   Container(
                     margin:
                         EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
                     child:
-                        _inputPrefer2("요금", "무료만", "~500원", "~1000원", "상관 없어"),
+                        _inputPrefer2("요금",
+                            costToString(costs[0]),
+                            costToString(costs[1]),
+                            costToString(costs[2]),
+                            costToString(costs[3])),
                   ),
                   Container(
                     child: ElevatedButton(
@@ -169,7 +175,6 @@ class _SettingScreen extends State<SettingScreen> {
                         minimumSize: Size(width, 50),
                       ),
                       onPressed: () => _submit(),
-                      //onPressed: () => {},
                       child: const Text(
                         '확인',
                         style: TextStyle(

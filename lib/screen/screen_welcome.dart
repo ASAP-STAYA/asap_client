@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asap_client/screen/screen_voice1.dart';
+import 'package:asap_client/screen/screen_main_after_login.dart';
 import 'package:flutter/material.dart';
 import 'package:asap_client/main.dart';
 
@@ -15,9 +15,9 @@ class _Welcome extends State<Welcome> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer(Duration(seconds: 3), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SpeechScreen()));
+    Timer(const Duration(seconds: 3), () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
     });
   }
 
@@ -27,12 +27,14 @@ class _Welcome extends State<Welcome> {
         MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
   }
 
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: WillPopScope(
           onWillPop: () async {
-          await _onBackPressed(context);
-          return true;
+            await _onBackPressed(context);
+            return true;
           },
           child: const Center(
           child: Text('반가워요!',
@@ -42,7 +44,6 @@ class _Welcome extends State<Welcome> {
                   fontWeight: FontWeight.w700)),
         ),
       ),
-      );
-
+    );
   }
 }
