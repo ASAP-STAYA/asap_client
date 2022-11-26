@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('ASAP',
+              const Text('ASAP',
                   style: TextStyle(
                     fontFamily: 'EliceDigitalBaeum_TTF',
                     fontSize: 80.0,

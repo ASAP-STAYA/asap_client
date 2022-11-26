@@ -4,39 +4,10 @@ import 'package:asap_client/screen/screen_voice2.dart';
 import 'package:flutter/material.dart';
 
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:highlight_text/highlight_text.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:duration_button/duration_button.dart';
 import 'package:asap_client/main.dart';
 
-/*
-class Voice1 extends StatefulWidget {
-  @override
-  _Voice1 createState() => _Voice1();
-}
-
-class _Voice1 extends State<Voice1> {
-  @override
-  void initState() {
-    super.initState();
-    //Timer(Duration(seconds: 10), (){
-    //  Navigator.push(context, MaterialPageRoute(builder: (context) => Voice2(title: _text)));
-    //});
-  }
-
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Voice',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: const Color(0xff0f4c81),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SpeechScreen(),
-    );
-  }
-}
-*/
 class ReturnValue {
   String? result = '';
   ReturnValue({this.result});

@@ -32,7 +32,7 @@ class _NaviScreen extends State<NaviScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('공영주차장으로 안내를 시작합니다'),
+          title: const Text('공영주차장으로 안내를 시작합니다'),
         ),
         body: Center(
           child: Column(
@@ -70,9 +70,9 @@ class _NaviScreen extends State<NaviScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Column(
-              children: <Widget>[
-                new Text("안내받은 주차장은 어떠셨나요"),
-                new Text("별점을 남겨주세요!"),
+              children: const <Widget>[
+                Text("안내받은 주차장은 어떠셨나요"),
+                Text("별점을 남겨주세요!"),
               ],
             ),
             content: Row(
@@ -80,18 +80,18 @@ class _NaviScreen extends State<NaviScreen> {
               children: [
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 32),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 32),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+                                const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
                             child: ElevatedButton.icon(
                               onPressed: () => {print("aa")},
-                              icon: Icon(Icons.mood, size: 18),
-                              label: Text(
+                              icon: const Icon(Icons.mood, size: 18),
+                              label: const Text(
                                 '만족해요!',
                                 style: TextStyle(
                                     fontSize: 30, color: Colors.green),
@@ -105,18 +105,18 @@ class _NaviScreen extends State<NaviScreen> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 32),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 32),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+                                const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
                             child: ElevatedButton.icon(
                               onPressed: () => {print("aa")},
-                              icon: Icon(Icons.mood_bad, size: 18),
-                              label: Text(
+                              icon: const Icon(Icons.mood_bad, size: 18),
+                              label: const Text(
                                 '별로예요',
                                 style: TextStyle(
                                     fontSize: 30, color: Colors.green),

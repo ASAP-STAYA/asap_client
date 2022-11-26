@@ -36,7 +36,7 @@ class MainAfterLoginScreen extends StatelessWidget {
                 minimumSize: const Size(150, 50),
               ),
               onPressed: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Voice1())),
+                  context, MaterialPageRoute(builder: (context) => SpeechScreen())),
               child: const Text('안내 시작',
                   style: TextStyle(
                       fontFamily: 'EliceDigitalBaeum_TTF', fontSize: 20.0)),
@@ -61,3 +61,4 @@ class MainAfterLoginScreen extends StatelessWidget {
     );
   }
 }
+

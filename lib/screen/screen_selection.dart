@@ -65,14 +65,14 @@ class _SelectScreen extends State<SelectScreen> {
             title: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                new Text("안내받은 주차장은 어떠셨나요?",
+                const Text("안내받은 주차장은 어떠셨나요?",
                     style: TextStyle(
                         fontFamily: 'EliceDigitalBaeum_TTF',
                         fontWeight: FontWeight.w700)),
                 Padding(
                   padding: EdgeInsets.all(height * 0.001),
                 ),
-                new Text("별점을 남겨주세요!",
+                const Text("별점을 남겨주세요!",
                     style: TextStyle(
                         fontFamily: 'EliceDigitalBaeum_TTF',
                         fontWeight: FontWeight.w700)),
@@ -83,14 +83,14 @@ class _SelectScreen extends State<SelectScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -101,10 +101,10 @@ class _SelectScreen extends State<SelectScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MyHomePage(title: '')));
+                                          const MyHomePage(title: '')));
                             },
-                            icon: Icon(Icons.mood, size: 13),
-                            label: Text(
+                            icon: const Icon(Icons.mood, size: 13),
+                            label: const Text(
                               '만족해요!',
                               style: TextStyle(
                                   fontSize: 13,
@@ -117,7 +117,7 @@ class _SelectScreen extends State<SelectScreen> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -125,7 +125,7 @@ class _SelectScreen extends State<SelectScreen> {
                             onPressed: () => {Review_Reason_Dialog(token)},
                             icon: Icon(Icons.mood_bad, size: 13),
 
-                            label: Text(
+                            label: const Text(
                               '별로예요',
                               style: TextStyle(
                                   fontSize: 13,
@@ -156,9 +156,6 @@ class _SelectScreen extends State<SelectScreen> {
       "discontent": discontent
     });
 
-    print(token);
-    print(body);
-
     final response = await http
         .post(preferenceUri,
         headers: {
@@ -183,8 +180,8 @@ class _SelectScreen extends State<SelectScreen> {
           return AlertDialog(
             title: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Text("어떤점이 불만족스러우셨나요?",
+              children: const <Widget>[
+                Text("어떤점이 불만족스러우셨나요?",
                     style: TextStyle(
                         fontFamily: 'EliceDigitalBaeum_TTF',
                         fontWeight: FontWeight.w700))
@@ -202,7 +199,7 @@ class _SelectScreen extends State<SelectScreen> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -216,8 +213,8 @@ class _SelectScreen extends State<SelectScreen> {
                                       builder: (context) =>
                                           MyHomePage(title: '')));
                             },
-                            icon: Icon(Icons.directions_car_rounded, size: 13),
-                            label: Text(
+                            icon: const Icon(Icons.directions_car_rounded, size: 13),
+                            label: const Text(
                               '거리가 멀어요',
                               style: TextStyle(
                                   fontSize: 8,
@@ -230,7 +227,7 @@ class _SelectScreen extends State<SelectScreen> {
                       Expanded(
                         child: Padding(
                           padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -242,10 +239,10 @@ class _SelectScreen extends State<SelectScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MyHomePage(title: '')));
+                                          const MyHomePage(title: '')));
                             },
-                            icon: Icon(Icons.attach_money_rounded, size: 13),
-                            label: Text(
+                            icon: const Icon(Icons.attach_money_rounded, size: 13),
+                            label: const Text(
                               '요금이 비싸요',
                               style: TextStyle(
                                   fontSize: 8,
@@ -288,19 +285,19 @@ class _SelectScreen extends State<SelectScreen> {
     screenSize = MediaQuery.of(context).size;
     width = screenSize.width;
     height = screenSize.height;
-    String parking_name = ' '; //주차장 이름
-    String parking_cost = ' '; //1시간 기준 요금
-    String parking_space = ' '; //남은 자리 수
+    String parkingName = ' '; //주차장 이름
+    String parkingCost = ' '; //1시간 기준 요금
+    String parkingSpace = ' '; //남은 자리 수
 
     Future<void> _submit() async {
       var url = Uri.parse("http");
 
       var response = await http.get(url);
       print("0:" + response.body);
-      List<dynamic> parking_info = jsonDecode(response.body);
-      parking_name = parking_info[0];
-      parking_cost = parking_info[1];
-      parking_space = parking_info[2];
+      List<dynamic> parkingInfo = jsonDecode(response.body);
+      parkingName = parkingInfo[0];
+      parkingCost = parkingInfo[1];
+      parkingSpace = parkingInfo[2];
     }
 
     Future<void> _onBackPressed(BuildContext context) async {
@@ -348,17 +345,17 @@ class _SelectScreen extends State<SelectScreen> {
                         padding: EdgeInsets.all(height * 0.05),
                       ),
                       Text(
-                        parking_name, //주차장 이름
+                        parkingName, //주차장 이름
                         style: TextStyle(
                             fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
                       ),
                       Text(
-                        parking_cost, //1시간 기준 요금
+                        parkingCost, //1시간 기준 요금
                         style: TextStyle(
                             fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                       ),
                       Text(
-                        parking_space, //남은 자리 수
+                        parkingSpace, //남은 자리 수
                         style: TextStyle(
                             fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                       ),

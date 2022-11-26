@@ -10,7 +10,7 @@ class Welcome extends StatefulWidget {
 }
 
 class _Welcome extends State<Welcome> {
-  Timer _timer = Timer(Duration(),(){});
+  final Timer _timer = Timer(const Duration(),(){});
 
   @override
   void initState() {
@@ -24,9 +24,8 @@ class _Welcome extends State<Welcome> {
   Future<void> _onBackPressed(BuildContext context) async {
     _timer.cancel();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'ASAP')));
   }
-
 
   @override
   Widget build(BuildContext context) {

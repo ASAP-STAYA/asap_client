@@ -14,42 +14,6 @@ import 'package:duration_button/duration_button.dart';
 import 'package:http/http.dart' as http;
 import '../provider/provider_user.dart';
 
-/*
->>>>>>> 6333862b1ca03a5234f60524fae256c9b3b512a5
-class Voice2 extends StatefulWidget {
-  String id = '';
-  Voice2(this.id);
-
-  @override
-  _Voice2 createState() => _Voice2(this.id);
-}
-
-class _Voice2 extends State<Voice2> {
-  String id = '';
-  _Voice2(this.id);
-
-  @override
-  void initState() {
-    super.initState();
-    //int parking = 0;
-    //Timer(Duration(seconds: 10), (){
-    //  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectScreen(parking)));
-    //});
-  }
-
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Voice',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SpeechScreen(id),
-    );
-  }
-}
-*/
 
 class SpeechScreen2 extends StatefulWidget {
   String id = '';
@@ -158,11 +122,6 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
         duration: const Duration(milliseconds: 500),
         repeatPauseDuration: const Duration(milliseconds: 500),
         repeat: true,
-
-        //child: FloatingActionButton(
-        //  onPressed: _listen ,
-        //  child: Icon(_isListening ? Icons.mic : Icons.mic_none),
-        //),
         child: DurationButton(
             duration: const Duration(seconds: 1),
             onPressed: () {},
@@ -187,13 +146,13 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
         },
         child: Center(
             child: Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
                 height: 300,
-                alignment: Alignment(0.0, 0.0),
+                alignment: const Alignment(0.0, 0.0),
                 child: Column(children: [
-                  Padding(
+                  const Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 100),
-                      child: const Text('주차가 필요하신가요?',
+                      child: Text('주차가 필요하신가요?',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'EliceDigitalBaeum_TTF',
@@ -232,26 +191,19 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
                 }),
             localeId: 'ko');
       }
-      _timer= Timer(Duration(seconds: 5), () {
+      _timer= Timer(const Duration(seconds: 5), () {
         setState(() => _isListening = false);
         _speech2.stop();
-        print(_text);
-        print(id);
+
         if (_text.contains('예') || _text.contains('네')) {
           parking = 1;
         } else {
           parking = 0;
         }
-
         _submit();
-        /*Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => SelectScreen(1, 'a',
-                    '22', 'aa')));*/
+
       });
     } else {
-      print('aaaaaa');
       setState(() => _isListening = false);
       _speech2.stop();
     }
