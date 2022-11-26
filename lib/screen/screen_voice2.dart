@@ -60,7 +60,7 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
             context,
             MaterialPageRoute(
                 builder: (context) => SelectScreen(
-                    1, new_name, latlng[0].toString(), latlng[1].toString())));
+                    0, new_name, latlng[0].toString(), latlng[1].toString())));
       } else {
         // 추천 api 전송
         // url = Uri.parse('http://localhost:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
