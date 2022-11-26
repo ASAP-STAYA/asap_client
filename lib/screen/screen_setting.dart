@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:asap_client/main.dart';
+import 'package:asap_client/screen/screen_main_after_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -106,7 +107,7 @@ class _SettingScreen extends State<SettingScreen> {
 
     Future<void> _onBackPressed(BuildContext context) async {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+          MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
     }
 
     return SafeArea(

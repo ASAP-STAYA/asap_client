@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'package:asap_client/screen/screen_main_after_login.dart';
 import 'package:asap_client/screen/screen_voice2.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
     setState(() => _isListening = false);
     _speech.stop();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+        MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
   }
 
   @override

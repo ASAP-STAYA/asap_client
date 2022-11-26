@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:asap_client/main.dart';
+import 'package:asap_client/screen/screen_main_after_login.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_navi.dart';
@@ -89,8 +90,8 @@ class _SelectScreen extends State<SelectScreen> {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -101,7 +102,7 @@ class _SelectScreen extends State<SelectScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const MyHomePage(title: '')));
+                                          MainAfterLoginScreen()));
                             },
                             icon: const Icon(Icons.mood, size: 13),
                             label: const Text(
@@ -116,15 +117,14 @@ class _SelectScreen extends State<SelectScreen> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
                             ),
                             onPressed: () => {Review_Reason_Dialog(token)},
-                            icon: Icon(Icons.mood_bad, size: 13),
-
+                            icon: const Icon(Icons.mood_bad, size: 13),
                             label: const Text(
                               '별로예요',
                               style: TextStyle(
@@ -144,24 +144,24 @@ class _SelectScreen extends State<SelectScreen> {
         });
   }
 
-  Future<void> saveReviewInServer(String token, double dist, double cost, int discontent) async {
+  Future<void> saveReviewInServer(
+      String token, double dist, double cost, int discontent) async {
     Uri preferenceUri =
-    // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
-    // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
-    Uri.parse("http://staya.koreacentral.cloudapp.azure.com:8080/api/review/save");
+        // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
+        // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
+        Uri.parse(
+            "http://staya.koreacentral.cloudapp.azure.com:8080/api/review/save");
 
-    final body = jsonEncode({
-      "dist": dist,
-      "cost": cost,
-      "discontent": discontent
-    });
+    final body =
+        jsonEncode({"dist": dist, "cost": cost, "discontent": discontent});
 
     final response = await http
         .post(preferenceUri,
-        headers: {
-          HttpHeaders.authorizationHeader: token,
-          'content-type': 'application/json'
-        }, body: body)
+            headers: {
+              HttpHeaders.authorizationHeader: token,
+              'content-type': 'application/json'
+            },
+            body: body)
         .catchError((onError) => onError);
 
     if (response.statusCode != 200) {
@@ -170,7 +170,6 @@ class _SelectScreen extends State<SelectScreen> {
   }
 
   Future<void> Review_Reason_Dialog(token) async {
-
     double? _ratingValue;
     showDialog(
         context: context,
@@ -192,14 +191,14 @@ class _SelectScreen extends State<SelectScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 30),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -211,9 +210,10 @@ class _SelectScreen extends State<SelectScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          MyHomePage(title: '')));
+                                          MainAfterLoginScreen()));
                             },
-                            icon: const Icon(Icons.directions_car_rounded, size: 13),
+                            icon: const Icon(Icons.directions_car_rounded,
+                                size: 13),
                             label: const Text(
                               '거리가 멀어요',
                               style: TextStyle(
@@ -226,8 +226,8 @@ class _SelectScreen extends State<SelectScreen> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(10, 30, 10, 30),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              10, 30, 10, 30),
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
                               primary: const Color(0xff0f4c81),
@@ -241,7 +241,8 @@ class _SelectScreen extends State<SelectScreen> {
                                       builder: (context) =>
                                           const MyHomePage(title: '')));
                             },
-                            icon: const Icon(Icons.attach_money_rounded, size: 13),
+                            icon: const Icon(Icons.attach_money_rounded,
+                                size: 13),
                             label: const Text(
                               '요금이 비싸요',
                               style: TextStyle(
@@ -261,23 +262,21 @@ class _SelectScreen extends State<SelectScreen> {
         });
   }
 
-  Timer _timer = Timer(Duration(),(){});
-  Timer _timer2 = Timer(Duration(),(){});
+  Timer _timer = Timer(const Duration(), () {});
+  Timer _timer2 = Timer(const Duration(), () {});
   void initState() {
-    _timer2 = Timer(Duration(seconds: 3), () {
+    _timer2 = Timer(const Duration(seconds: 3), () {
       startNavi();
-      if (this.parking == 1) {
-        _timer = Timer(Duration(seconds: 1), () {
+      if (parking == 1) {
+        _timer = Timer(const Duration(seconds: 1), () {
           ReviewDialog(context.read<UserProvider>().token);
-
         });
       } else {
         Navigator.pop(context);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyHomePage(title: '')));
+            MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
       }
     });
-
   }
 
   @override
@@ -289,27 +288,15 @@ class _SelectScreen extends State<SelectScreen> {
     String parkingCost = ' '; //1시간 기준 요금
     String parkingSpace = ' '; //남은 자리 수
 
-    Future<void> _submit() async {
-      var url = Uri.parse("http");
-
-      var response = await http.get(url);
-      print("0:" + response.body);
-      List<dynamic> parkingInfo = jsonDecode(response.body);
-      parkingName = parkingInfo[0];
-      parkingCost = parkingInfo[1];
-      parkingSpace = parkingInfo[2];
-    }
-
     Future<void> _onBackPressed(BuildContext context) async {
       _timer.cancel();
       _timer2.cancel();
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+          MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
     }
 
     return SafeArea(
         child: Scaffold(
-
             body: WillPopScope(
                 onWillPop: () async {
                   await _onBackPressed(context);
@@ -318,69 +305,69 @@ class _SelectScreen extends State<SelectScreen> {
                 child: Container(
                     child: Center(
                         child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(height * 0.001),
-                    ),
-                    const Text('안내 시작',
-                        style: TextStyle(
-                          fontFamily: 'EliceDigitalBaeum_TTF',
-                          fontSize: 40.0,
-                          color: const Color(0xff0f4c81),
-                          fontWeight: FontWeight.w700,
-                        ),
-                        textAlign: TextAlign.center),
-                    Padding(
-                      padding: EdgeInsets.all(height * 0.05),
-                    ),
-                    if (parking == 1) ...[
-                      const Text(
-                        '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(height * 0.05),
-                      ),
-                      Text(
-                        parkingName, //주차장 이름
-                        style: TextStyle(
-                            fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
-                      ),
-                      Text(
-                        parkingCost, //1시간 기준 요금
-                        style: TextStyle(
-                            fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                      ),
-                      Text(
-                        parkingSpace, //남은 자리 수
-                        style: TextStyle(
-                            fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                      ),
-                    ] else ...[
-                      const Text(
-                        '입력한 목적지로 안내를 시작합니다',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(height * 0.1),
-                      ),
-                      Text(
-                        this.name, //목적지 이름
-                        style: TextStyle(
-                            fontSize: 30,
-                            fontFamily: 'EliceDigitalBaeum_TTF',
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(height * 0.02),
-                      ),
-                    ]
-                  ],
-                ))))));
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(height * 0.001),
+                            ),
+                            const Text('안내 시작',
+                                style: TextStyle(
+                                  fontFamily: 'EliceDigitalBaeum_TTF',
+                                  fontSize: 40.0,
+                                  color: Color(0xff0f4c81),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.center),
+                            Padding(
+                              padding: EdgeInsets.all(height * 0.05),
+                            ),
+                            if (parking == 1) ...[
+                              const Text(
+                                '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(height * 0.05),
+                              ),
+                              Text(
+                                parkingName, //주차장 이름
+                                style: const TextStyle(
+                                    fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
+                              ),
+                              Text(
+                                parkingCost, //1시간 기준 요금
+                                style: const TextStyle(
+                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                              ),
+                              Text(
+                                parkingSpace, //남은 자리 수
+                                style: const TextStyle(
+                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                              ),
+                            ] else ...[
+                              const Text(
+                                '입력한 목적지로 안내를 시작합니다',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(height * 0.1),
+                              ),
+                              Text(
+                                name, //목적지 이름
+                                style: const TextStyle(
+                                    fontSize: 30,
+                                    fontFamily: 'EliceDigitalBaeum_TTF',
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(height * 0.02),
+                              ),
+                            ]
+                          ],
+                        ))))));
   }
 }

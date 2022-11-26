@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'package:asap_client/main.dart';
+import 'package:asap_client/screen/screen_main_after_login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:asap_client/screen/screen_selection.dart';
@@ -100,14 +101,14 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
     locales = _speech2.locales();
   }
 
-  Timer _timer = Timer(Duration(),(){});
+  Timer _timer = Timer(const Duration(),(){});
 
   Future<void> _onBackPressed(BuildContext context) async {
     _timer.cancel();
     setState(() => _isListening = false);
     _speech2.stop();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => MyHomePage(title: 'ASAP')));
+        MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
   }
 
   @override

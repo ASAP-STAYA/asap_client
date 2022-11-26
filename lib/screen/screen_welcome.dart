@@ -24,7 +24,7 @@ class _Welcome extends State<Welcome> {
   Future<void> _onBackPressed(BuildContext context) async {
     _timer.cancel();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const MyHomePage(title: 'ASAP')));
+        MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
   }
 
   @override
