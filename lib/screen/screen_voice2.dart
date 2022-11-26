@@ -65,9 +65,10 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
         // 추천 api 전송
         // url = Uri.parse('http://localhost:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
 
-
         print("parking 11 token::" + token);
-        url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]}');
+        print("parking 11 lat:: "+ latlng[0].toString());
+        print("parking 11 lat:: "+ latlng[1].toString());
+        url = Uri.parse('http://staya.koreacentral.cloudapp.azure.com:8080/api/parking/findParkingLot?lat=${latlng[0].toString()}&lng=${latlng[1].toString()}');
         var response = await http.get(url, headers: {
           HttpHeaders.authorizationHeader: token,
           'content-type': 'application/json'
