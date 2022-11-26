@@ -149,10 +149,7 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        backgroundColor: const Color(0xff0f4c81),
-      ),
+      
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
