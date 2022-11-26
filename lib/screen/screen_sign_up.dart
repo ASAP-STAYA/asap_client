@@ -57,42 +57,21 @@ class _SignUpScreen extends State<SignUpScreen> {
       _userProvider.canNarrow = (isSelectedSmall[0] == false);
     }
 
-    void savePreferenceInServer(String userId) async {
-      Uri preferenceUri =
-          // Uri.parse("http://10.0.2.2:8080/api/auth/signup/preference/");
-          // Uri.parse("http://localhost:8080/api/auth/signup/preference/");
-          Uri.parse(
-              "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/preference/");
-
-      final body = jsonEncode({
-        "user_id": userId,
-        "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
-        "cost_prefer": getCostFromSelectedList(isSelectedPrice),
-        "can_mechanical": _userProvider.canMechanical,
-        "can_narrow": _userProvider.canNarrow,
-      });
-
-      final response = await http
-          .post(preferenceUri,
-              headers: {'content-type': 'application/json'}, body: body)
-          .catchError((onError) => onError);
-
-      if (response.statusCode != 200) {
-        throw Exception("[ERROR] can't create preference of user $userId");
-      }
-    }
-
     Future<String> saveUserInServer() async {
       late String userId;
-      // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/user/");
-      // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/user/");
-      Uri userUri = Uri.parse(
-          "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/user/");
+      Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/");
+      // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/");
+      // Uri userUri = Uri.parse(
+      //     "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
         "email": _userProvider.email,
-        "password": _userProvider.password
+        "password": _userProvider.password,
+        "dist_prefer": getDistanceFromSelectedList(isSelectedDistance),
+        "cost_prefer": getCostFromSelectedList(isSelectedPrice),
+        "can_mechanical": _userProvider.canMechanical,
+        "can_narrow": _userProvider.canNarrow
       });
 
       final response = await http
@@ -100,10 +79,8 @@ class _SignUpScreen extends State<SignUpScreen> {
               headers: {'content-type': 'application/json'}, body: body)
           .catchError((onError) => onError);
 
-      if (response.statusCode == 200 && response.body != "[ERROR] same user") {
-        userId = response.body;
-        savePreferenceInServer(response.body);
-        return userId;
+      if (response.statusCode == 200 && response.body == "sign up success") {
+        return "success";
       } else {
         return "[ERROR] same user";
       }
