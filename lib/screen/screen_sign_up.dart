@@ -59,10 +59,10 @@ class _SignUpScreen extends State<SignUpScreen> {
 
     Future<String> saveUserInServer() async {
       late String userId;
-      Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/");
+      // Uri userUri = Uri.parse("http://10.0.2.2:8080/api/auth/signup/");
       // Uri userUri = Uri.parse("http://localhost:8080/api/auth/signup/");
-      // Uri userUri = Uri.parse(
-      //     "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/");
+      Uri userUri = Uri.parse(
+          "http://staya.koreacentral.cloudapp.azure.com:8080/api/auth/signup/");
 
       final body = jsonEncode({
         "username": _userProvider.name,
