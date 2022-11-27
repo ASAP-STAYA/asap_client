@@ -80,6 +80,11 @@ class _SettingScreen extends State<SettingScreen> {
 
     _userProvider = Provider.of<UserProvider>(context);
 
+    Future<void> _onBackPressed(BuildContext context) async {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
+    }
+
     Future<bool> _submit() async {
       // Uri patchUri = Uri.parse("http://10.0.2.2:8080/api/preference/");
       // Uri patchUri = Uri.parse("http://localhost:8080/api/preference/");
@@ -100,15 +105,12 @@ class _SettingScreen extends State<SettingScreen> {
       if (response.statusCode != 200) {
         return false;
       }
+
+      _onBackPressed(context);
       return true;
     }
 
     final marginInputForm = width * 0.09;
-
-    Future<void> _onBackPressed(BuildContext context) async {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
-    }
 
     return SafeArea(
       child: Scaffold(
