@@ -154,7 +154,7 @@ class _SettingScreen extends State<SettingScreen> {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, height * 0.05, 0, 0),
                     child: _inputPrefer2(
-                        "거리",
+                        "목적지로부터 주차장까지의 거리",
                         distanceToString(distances[0]),
                         distanceToString(distances[1]),
                         distanceToString(distances[2]),
@@ -254,7 +254,7 @@ class _SettingScreen extends State<SettingScreen> {
       String type, String arg1, String arg2, String arg3, String arg4) {
     List<bool> isSelected;
 
-    if ("거리" == type) {
+    if ("목적지로부터 주차장까지의 거리" == type) {
       isSelected = isSelectedDistance;
     } else if ("요금" == type) {
       isSelected = isSelectedPrice;
