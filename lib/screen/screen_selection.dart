@@ -17,9 +17,12 @@ class SelectScreen extends StatefulWidget {
   final String xx;
   final String yy;
   final String name;
-  const SelectScreen(this.parking, this.name, this.xx, this.yy);
+  final int rate;
+  final int capacity;
+  final String parkingname;
+  SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
   State<StatefulWidget> createState() {
-    return _SelectScreen(this.parking, this.name, this.xx, this.yy);
+    return _SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
   }
 }
 
@@ -31,8 +34,11 @@ class _SelectScreen extends State<SelectScreen> {
   int parking;
   String xx = '';
   String yy = '';
-  String name = ''; //목적지 이름
-  _SelectScreen(this.parking, this.name, this.xx, this.yy);
+  String name = ''; // 목적지 이름
+  int rate = -1;
+  int capacity = -1;
+  String parkingname =''; // 추천받은 주차장 이름
+  _SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
 
   // 카카오 내비 앱으로 전환
   void startNavi() async {
@@ -284,9 +290,9 @@ class _SelectScreen extends State<SelectScreen> {
     screenSize = MediaQuery.of(context).size;
     width = screenSize.width;
     height = screenSize.height;
-    String parkingName = ' '; //주차장 이름
-    String parkingCost = ' '; //1시간 기준 요금
-    String parkingSpace = ' '; //남은 자리 수
+    String parkingName = parkingname; //주차장 이름
+    int parkingRate = rate; //1시간 기준 요금
+    int parkingCapacity = capacity; //남은 자리 수
 
     Future<void> _onBackPressed(BuildContext context) async {
       _timer.cancel();
@@ -337,12 +343,12 @@ class _SelectScreen extends State<SelectScreen> {
                                     fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
                               ),
                               Text(
-                                parkingCost, //1시간 기준 요금
+                                '1시간 기준 요금: '+parkingRate.toString(), //1시간 기준 요금
                                 style: const TextStyle(
                                     fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                               ),
                               Text(
-                                parkingSpace, //남은 자리 수
+                                '현재 남은 자리 수: '+parkingCapacity.toString(), //남은 자리 수
                                 style: const TextStyle(
                                     fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                               ),
