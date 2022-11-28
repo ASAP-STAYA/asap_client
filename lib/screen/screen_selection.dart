@@ -20,9 +20,10 @@ class SelectScreen extends StatefulWidget {
   final int rate;
   final int capacity;
   final String parkingname;
-  SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
+  final int dest_parking;
+  SelectScreen(this.parking, this.name, this.xx, this.yy, this.dest_parking, this.parkingname, this.rate, this.capacity);
   State<StatefulWidget> createState() {
-    return _SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
+    return _SelectScreen(this.parking, this.name, this.xx, this.yy, this.dest_parking, this.parkingname, this.rate, this.capacity);
   }
 }
 
@@ -32,13 +33,14 @@ class _SelectScreen extends State<SelectScreen> {
   late double width;
   late double height;
   int parking;
+  int dest_parking = 1;
   String xx = '';
   String yy = '';
   String name = ''; // 목적지 이름
   int rate = -1;
   int capacity = -1;
   String parkingname =''; // 추천받은 주차장 이름
-  _SelectScreen(this.parking, this.name, this.xx, this.yy, this.parkingname, this.rate, this.capacity);
+  _SelectScreen(this.parking, this.name, this.xx, this.yy, this.dest_parking, this.parkingname, this.rate, this.capacity);
 
   // 카카오 내비 앱으로 전환
   void startNavi() async {
@@ -273,7 +275,7 @@ class _SelectScreen extends State<SelectScreen> {
   void initState() {
     _timer2 = Timer(const Duration(seconds: 3), () {
       startNavi();
-      if (parking == 1) {
+      if (parking == 1 && dest_parking == 0) {
         _timer = Timer(const Duration(seconds: 1), () {
           ReviewDialog(context.read<UserProvider>().token);
         });
@@ -300,7 +302,8 @@ class _SelectScreen extends State<SelectScreen> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
     }
-
+    print("PPPPARKING" + parking.toString());
+    print("PPPPARKINGDDD" + dest_parking.toString());
     return SafeArea(
         child: Scaffold(
             body: WillPopScope(
@@ -328,30 +331,50 @@ class _SelectScreen extends State<SelectScreen> {
                               padding: EdgeInsets.all(height * 0.05),
                             ),
                             if (parking == 1) ...[
-                              const Text(
-                                '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(height * 0.05),
-                              ),
-                              Text(
-                                parkingName, //주차장 이름
-                                style: const TextStyle(
-                                    fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Text(
-                                '1시간 기준 요금: '+parkingRate.toString(), //1시간 기준 요금
-                                style: const TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Text(
-                                '현재 남은 자리 수: '+parkingCapacity.toString(), //남은 자리 수
-                                style: const TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
+
+                              if(dest_parking == 1)...[
+                                //목적지에 주차장이 있을 때
+                                const Text(
+                                  '목적지에 주차장이 있습니다. \n 목적지로 \n 안내합니다',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(height * 0.05),
+                                ),
+                                Text(
+                                  name, // 목적지 이름
+                                  style: const TextStyle(
+                                      fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                )
+                              ]
+                              else ...[
+                                const Text(
+                                  '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(height * 0.05),
+                                ),
+                                Text(
+                                  parkingName, //주차장 이름
+                                  style: const TextStyle(
+                                      fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  '1시간 기준 요금: '+parkingRate.toString(), //1시간 기준 요금
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  '현재 남은 자리 수: '+parkingCapacity.toString(), //남은 자리 수
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                              ]
                             ] else ...[
                               const Text(
                                 '입력한 목적지로 안내를 시작합니다',
