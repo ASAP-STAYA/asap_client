@@ -335,7 +335,7 @@ class _SelectScreen extends State<SelectScreen> {
                               if(dest_parking == 1)...[
                                 //목적지에 주차장이 있을 때
                                 const Text(
-                                  '목적지에 주차장이 있습니다. \n 목적지로 \n 안내합니다',
+                                  '목적지에 주차장이 있습니다. \n 목적지로 안내합니다.',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
@@ -351,7 +351,7 @@ class _SelectScreen extends State<SelectScreen> {
                               ]
                               else ...[
                                 const Text(
-                                  '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
+                                  '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다.',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
@@ -365,19 +365,19 @@ class _SelectScreen extends State<SelectScreen> {
                                       fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
                                 ),
                                 Text(
-                                  '1시간 기준 요금: '+parkingRate.toString(), //1시간 기준 요금
+                                  '1시간 기준 요금: '+parkingRate.toString()+'원', //1시간 기준 요금
                                   style: const TextStyle(
                                       fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                                 ),
                                 Text(
-                                  '현재 남은 자리 수: '+parkingCapacity.toString(), //남은 자리 수
+                                  '현재 남은 자리 수: '+parkingCapacity.toString()+'칸', //남은 자리 수
                                   style: const TextStyle(
                                       fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
                                 ),
                               ]
                             ] else ...[
                               const Text(
-                                '입력한 목적지로 안내를 시작합니다',
+                                '입력한 목적지로 안내를 시작합니다.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
