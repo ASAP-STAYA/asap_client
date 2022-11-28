@@ -60,7 +60,7 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
             context,
             MaterialPageRoute(
                 builder: (context) => SelectScreen(
-                    0, new_name, latlng[0].toString(), latlng[1].toString())));
+                    1, new_name, latlng[0].toString(), latlng[1].toString(),1)));
       } else {
         // 추천 api 전송
         // url = Uri.parse('http://localhost:8080/api/parking/findParkingLot?lat=${latlng[0]}&lng=${latlng[1]});
@@ -81,7 +81,7 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
             context,
             MaterialPageRoute(
                 builder: (context) => SelectScreen(1, new_name,
-                    body['lat'].toString(), body['lng'].toString())));
+                    body['lat'].toString(), body['lng'].toString(),0)));
       }
     } else {
       // 아니오 주차 안함 -> 바로 목적지 경도로 안내
@@ -89,7 +89,7 @@ class _SpeechScreenState2 extends State<SpeechScreen2> {
           context,
           MaterialPageRoute(
               builder: (context) => SelectScreen(
-                  0, new_name, latlng[0].toString(), latlng[1].toString())));
+                  0, new_name, latlng[0].toString(), latlng[1].toString(),0)));
     }
   }
 

@@ -17,9 +17,10 @@ class SelectScreen extends StatefulWidget {
   final String xx;
   final String yy;
   final String name;
-  const SelectScreen(this.parking, this.name, this.xx, this.yy);
+  final int dest_parking;
+  const SelectScreen(this.parking, this.name, this.xx, this.yy,this.dest_parking);
   State<StatefulWidget> createState() {
-    return _SelectScreen(this.parking, this.name, this.xx, this.yy);
+    return _SelectScreen(this.parking, this.name, this.xx, this.yy,this.dest_parking);
   }
 }
 
@@ -29,10 +30,11 @@ class _SelectScreen extends State<SelectScreen> {
   late double width;
   late double height;
   int parking;
+  int dest_parking = 1;
   String xx = '';
   String yy = '';
   String name = ''; //목적지 이름
-  _SelectScreen(this.parking, this.name, this.xx, this.yy);
+  _SelectScreen(this.parking, this.name, this.xx, this.yy,this.dest_parking);
 
   // 카카오 내비 앱으로 전환
   void startNavi() async {
@@ -267,7 +269,7 @@ class _SelectScreen extends State<SelectScreen> {
   void initState() {
     _timer2 = Timer(const Duration(seconds: 3), () {
       startNavi();
-      if (parking == 1) {
+      if (parking == 1 && dest_parking == 0) {
         _timer = Timer(const Duration(seconds: 1), () {
           ReviewDialog(context.read<UserProvider>().token);
         });
@@ -294,7 +296,8 @@ class _SelectScreen extends State<SelectScreen> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => MainAfterLoginScreen()));
     }
-
+    print("PPPPARKING" + parking.toString());
+    print("PPPPARKINGDDD" + dest_parking.toString());
     return SafeArea(
         child: Scaffold(
             body: WillPopScope(
@@ -321,31 +324,62 @@ class _SelectScreen extends State<SelectScreen> {
                             Padding(
                               padding: EdgeInsets.all(height * 0.05),
                             ),
+
                             if (parking == 1) ...[
-                              const Text(
-                                '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(height * 0.05),
-                              ),
-                              Text(
-                                parkingName, //주차장 이름
-                                style: const TextStyle(
-                                    fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Text(
-                                parkingCost, //1시간 기준 요금
-                                style: const TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
-                              Text(
-                                parkingSpace, //남은 자리 수
-                                style: const TextStyle(
-                                    fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
-                              ),
+
+                              if(dest_parking == 1)...[
+                                //목적지에 주차장이 있을 때
+                                const Text(
+                                  '목적지에 주차장이 있습니다. \n 목적지의 주차장으로 \n 안내합니다',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(height * 0.05),
+                                ),
+                                Text(
+                                  parkingName, //주차장 이름
+                                  style: const TextStyle(
+                                      fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  parkingCost, //1시간 기준 요금
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  parkingSpace, //남은 자리 수
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                              ]
+                              else ...[
+                                const Text(
+                                  '사용자 맞춤 \n 최적의 주차장으로 \n 안내합니다',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(height * 0.05),
+                                ),
+                                Text(
+                                  parkingName, //주차장 이름
+                                  style: const TextStyle(
+                                      fontSize: 30, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  parkingCost, //1시간 기준 요금
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                                Text(
+                                  parkingSpace, //남은 자리 수
+                                  style: const TextStyle(
+                                      fontSize: 22, fontFamily: 'EliceDigitalBaeum_TTF'),
+                                ),
+                              ]
                             ] else ...[
                               const Text(
                                 '입력한 목적지로 안내를 시작합니다',
