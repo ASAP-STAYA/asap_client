@@ -1,9 +1,7 @@
-const List<int> costs = [0, 500, 1000, -1];
+const List<int> costs = [2000, 4000, 6000, -1];
 
 String costToString(int cost) {
-  if (cost == 0.0) {
-    return "무료만";
-  } else if (cost == -1.0) {
+  if (cost == -1.0) {
     return "상관 없어";
   } else {
     return "~$cost원";

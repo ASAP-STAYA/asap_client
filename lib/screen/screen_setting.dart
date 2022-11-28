@@ -164,7 +164,7 @@ class _SettingScreen extends State<SettingScreen> {
                     margin:
                         EdgeInsets.fromLTRB(0, height * 0.02, 0, height * 0.05),
                     child:
-                        _inputPrefer2("요금",
+                        _inputPrefer2("1시간 단위 주차장 요금",
                             costToString(costs[0]),
                             costToString(costs[1]),
                             costToString(costs[2]),
@@ -256,7 +256,7 @@ class _SettingScreen extends State<SettingScreen> {
 
     if ("목적지로부터 주차장까지의 거리" == type) {
       isSelected = isSelectedDistance;
-    } else if ("요금" == type) {
+    } else if ("1시간 단위 주차장 요금" == type) {
       isSelected = isSelectedPrice;
     } else {
       throw Exception("[ERROR] Invalid argument in _inputPrefer2");
